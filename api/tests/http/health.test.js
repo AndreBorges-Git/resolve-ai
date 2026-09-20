@@ -1,6 +1,9 @@
 const request = require('supertest')
 
-const app = require('../../src/main/app')
+const criarApp = require('../../src/main/app')
+const criarContainerFake = require('../helpers/containerFake')
+
+const app = criarApp(criarContainerFake())
 
 describe('GET /api/health', () => {
   it('responde 200 com status ok e timestamp', async () => {

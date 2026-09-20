@@ -1,7 +1,8 @@
 require('dotenv').config()
 
-const app = require('./app')
 const { conectar } = require('../infrastructure/config/db')
+const criarApp = require('./app')
+const criarContainer = require('./container')
 
 const PORT = process.env.PORT || 3000
 
@@ -9,6 +10,8 @@ async function iniciar() {
   try {
     await conectar(process.env.MONGODB_URI)
     console.log('MongoDB conectado')
+
+    const app = criarApp(criarContainer())
 
     app.listen(PORT, () => {
       console.log(`API ouvindo na porta ${PORT}`)
