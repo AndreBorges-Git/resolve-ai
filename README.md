@@ -47,7 +47,10 @@ anterior, novo status, data e hora, usuário responsável e observação.
 
 ## Arquitetura
 
-API em camadas — **Routes → Controllers → Models**. Diagrama em [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md).
+**Clean Architecture** — a regra de dependência aponta para dentro:
+`interfaces/http` e `infrastructure` → `application` → `domain`. O domínio não conhece
+Express nem Mongoose. Diagrama e justificativa (monolito × microsserviços) em
+[`docs/ARQUITETURA.md`](docs/ARQUITETURA.md).
 
 ## Como rodar
 
