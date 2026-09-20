@@ -54,3 +54,22 @@ export function formatarDataHora(valor) {
     minute: '2-digit'
   })
 }
+
+// Espelho da maquina de estados de domain/entities/Ocorrencia.js. Serve para nao
+// oferecer no select uma transicao que a API recusaria; quem decide continua sendo
+// o dominio, que responde 409 em qualquer caminho invalido.
+const TRANSICOES = {
+  aberta: ['em_analise', 'cancelada'],
+  em_analise: ['em_atendimento', 'cancelada'],
+  em_atendimento: ['resolvida', 'cancelada'],
+  resolvida: [],
+  cancelada: []
+}
+
+export function proximosStatus(status) {
+  return (TRANSICOES[status] || []).map((valor) => ({ valor, rotulo: ROTULO_STATUS[valor] }))
+}
+
+export function ehStatusFinal(status) {
+  return (TRANSICOES[status] || []).length === 0
+}
