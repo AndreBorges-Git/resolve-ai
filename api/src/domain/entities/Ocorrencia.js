@@ -1,3 +1,4 @@
+const TransicaoInvalidaError = require('../errors/TransicaoInvalidaError')
 const ValidacaoError = require('../errors/ValidacaoError')
 
 const STATUS = ['aberta', 'em_analise', 'em_atendimento', 'resolvida', 'cancelada']
@@ -13,7 +14,23 @@ const CATEGORIAS = [
 ]
 const PRIORIDADES = ['baixa', 'media', 'alta']
 
-// Entidade pura: nenhuma lib externa. A maquina de estados entra no D4.
+// A maquina de estados do enunciado. Fica no dominio porque e regra de negocio:
+// nem o controller nem o caso de uso decidem o que pode virar o que.
+//
+//   aberta -> em_analise -> em_atendimento -> resolvida
+//      |          |               |
+//      +----------+---------------+--> cancelada
+//
+// 'resolvida' e 'cancelada' sao finais.
+const TRANSICOES = {
+  aberta: ['em_analise', 'cancelada'],
+  em_analise: ['em_atendimento', 'cancelada'],
+  em_atendimento: ['resolvida', 'cancelada'],
+  resolvida: [],
+  cancelada: []
+}
+
+// Entidade pura: nenhuma lib externa.
 class Ocorrencia {
   constructor({
     id = null,
@@ -93,6 +110,43 @@ class Ocorrencia {
 
   static get PRIORIDADES() {
     return [...PRIORIDADES]
+  }
+
+  static get TRANSICOES() {
+    return { ...TRANSICOES }
+  }
+
+  static ehStatusFinal(status) {
+    return (TRANSICOES[status] || []).length === 0
+  }
+
+  // Para quais status esta ocorrencia pode ir a partir de onde esta.
+  proximosStatus() {
+    return [...(TRANSICOES[this.status] || [])]
+  }
+
+  podeTransicionarPara(novoStatus) {
+    return this.proximosStatus().includes(novoStatus)
+  }
+
+  // Unico caminho para mudar o status de uma ocorrencia.
+  alterarStatus(novoStatus) {
+    if (!STATUS.includes(novoStatus)) {
+      throw new ValidacaoError(`status invalido. Use: ${STATUS.join(', ')}`)
+    }
+
+    if (!this.podeTransicionarPara(novoStatus)) {
+      throw new TransicaoInvalidaError(
+        `Nao e possivel mudar de '${this.status}' para '${novoStatus}'`
+      )
+    }
+
+    const statusAnterior = this.status
+
+    this.status = novoStatus
+    this.resolvidaEm = novoStatus === 'resolvida' ? new Date() : this.resolvidaEm
+
+    return statusAnterior
   }
 
   // Id do solicitante, seja ele um id cru ou um objeto ja populado.

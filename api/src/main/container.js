@@ -1,4 +1,8 @@
+const AlterarStatusOcorrencia = require('../application/usecases/AlterarStatusOcorrencia')
 const AutenticarUsuario = require('../application/usecases/AutenticarUsuario')
+const ComentarOcorrencia = require('../application/usecases/ComentarOcorrencia')
+const ListarComentarios = require('../application/usecases/ListarComentarios')
+const ListarHistorico = require('../application/usecases/ListarHistorico')
 const ListarOcorrencias = require('../application/usecases/ListarOcorrencias')
 const ObterOcorrencia = require('../application/usecases/ObterOcorrencia')
 const ObterUsuarioAutenticado = require('../application/usecases/ObterUsuarioAutenticado')
@@ -46,6 +50,14 @@ function criarContainer({ jwtSecret = process.env.JWT_SECRET, jwtExpiracao = '7d
       armazenamentoImagem
     }),
     listarOcorrencias: new ListarOcorrencias({ ocorrenciaRepository }),
+
+    alterarStatusOcorrencia: new AlterarStatusOcorrencia({
+      ocorrenciaRepository,
+      historicoRepository
+    }),
+    comentarOcorrencia: new ComentarOcorrencia({ ocorrenciaRepository, comentarioRepository }),
+    listarComentarios: new ListarComentarios({ ocorrenciaRepository, comentarioRepository }),
+    listarHistorico: new ListarHistorico({ ocorrenciaRepository, historicoRepository }),
     obterOcorrencia: new ObterOcorrencia({
       ocorrenciaRepository,
       comentarioRepository,

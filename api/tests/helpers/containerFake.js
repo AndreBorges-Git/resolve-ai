@@ -1,4 +1,8 @@
+const AlterarStatusOcorrencia = require('../../src/application/usecases/AlterarStatusOcorrencia')
 const AutenticarUsuario = require('../../src/application/usecases/AutenticarUsuario')
+const ComentarOcorrencia = require('../../src/application/usecases/ComentarOcorrencia')
+const ListarComentarios = require('../../src/application/usecases/ListarComentarios')
+const ListarHistorico = require('../../src/application/usecases/ListarHistorico')
 const ListarOcorrencias = require('../../src/application/usecases/ListarOcorrencias')
 const ObterOcorrencia = require('../../src/application/usecases/ObterOcorrencia')
 const ObterUsuarioAutenticado = require('../../src/application/usecases/ObterUsuarioAutenticado')
@@ -42,6 +46,14 @@ function criarContainerFake() {
       armazenamentoImagem
     }),
     listarOcorrencias: new ListarOcorrencias({ ocorrenciaRepository }),
+
+    alterarStatusOcorrencia: new AlterarStatusOcorrencia({
+      ocorrenciaRepository,
+      historicoRepository
+    }),
+    comentarOcorrencia: new ComentarOcorrencia({ ocorrenciaRepository, comentarioRepository }),
+    listarComentarios: new ListarComentarios({ ocorrenciaRepository, comentarioRepository }),
+    listarHistorico: new ListarHistorico({ ocorrenciaRepository, historicoRepository }),
     obterOcorrencia: new ObterOcorrencia({
       ocorrenciaRepository,
       comentarioRepository,
