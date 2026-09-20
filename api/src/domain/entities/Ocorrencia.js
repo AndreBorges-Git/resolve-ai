@@ -1,0 +1,121 @@
+const ValidacaoError = require('../errors/ValidacaoError')
+
+const STATUS = ['aberta', 'em_analise', 'em_atendimento', 'resolvida', 'cancelada']
+const CATEGORIAS = [
+  'iluminacao',
+  'equipamento',
+  'acessibilidade',
+  'limpeza',
+  'vazamento',
+  'seguranca',
+  'manutencao',
+  'outros'
+]
+const PRIORIDADES = ['baixa', 'media', 'alta']
+
+// Entidade pura: nenhuma lib externa. A maquina de estados entra no D4.
+class Ocorrencia {
+  constructor({
+    id = null,
+    titulo,
+    descricao,
+    categoria,
+    localizacao,
+    imagemUrl = null,
+    prioridade = 'media',
+    status = 'aberta',
+    solicitante,
+    responsavel = null,
+    solucaoAplicada = null,
+    avaliacao = null,
+    resolvidaEm = null,
+    createdAt = null,
+    updatedAt = null
+  }) {
+    if (!titulo || !String(titulo).trim()) {
+      throw new ValidacaoError('Titulo e obrigatorio')
+    }
+
+    if (!descricao || !String(descricao).trim()) {
+      throw new ValidacaoError('Descricao e obrigatoria')
+    }
+
+    if (!CATEGORIAS.includes(categoria)) {
+      throw new ValidacaoError(`Categoria deve ser uma de: ${CATEGORIAS.join(', ')}`)
+    }
+
+    if (!localizacao || !String(localizacao).trim()) {
+      throw new ValidacaoError('Localizacao e obrigatoria')
+    }
+
+    if (!PRIORIDADES.includes(prioridade)) {
+      throw new ValidacaoError(`Prioridade deve ser uma de: ${PRIORIDADES.join(', ')}`)
+    }
+
+    if (!STATUS.includes(status)) {
+      throw new ValidacaoError(`Status deve ser um de: ${STATUS.join(', ')}`)
+    }
+
+    if (!solicitante) {
+      throw new ValidacaoError('Solicitante e obrigatorio')
+    }
+
+    this.id = id
+    this.titulo = String(titulo).trim()
+    this.descricao = String(descricao).trim()
+    this.categoria = categoria
+    this.localizacao = String(localizacao).trim()
+    this.imagemUrl = imagemUrl
+    this.prioridade = prioridade
+    this.status = status
+    this.solicitante = solicitante
+    this.responsavel = responsavel
+    this.solucaoAplicada = solucaoAplicada
+    this.avaliacao = avaliacao
+    this.resolvidaEm = resolvidaEm
+    this.createdAt = createdAt
+    this.updatedAt = updatedAt
+  }
+
+  static get STATUS() {
+    return [...STATUS]
+  }
+
+  // Toda ocorrencia nasce aberta. O nome fica no dominio para que nenhum
+  // caso de uso precise repetir a string.
+  static get STATUS_INICIAL() {
+    return 'aberta'
+  }
+
+  static get CATEGORIAS() {
+    return [...CATEGORIAS]
+  }
+
+  static get PRIORIDADES() {
+    return [...PRIORIDADES]
+  }
+
+  // Id do solicitante, seja ele um id cru ou um objeto ja populado.
+  get solicitanteId() {
+    return Ocorrencia.extrairId(this.solicitante)
+  }
+
+  static extrairId(valor) {
+    if (!valor) {
+      return null
+    }
+
+    return String(valor.id || valor._id || valor)
+  }
+
+  pertenceA(usuarioId) {
+    return this.solicitanteId === String(usuarioId)
+  }
+
+  // Solicitante so enxerga as proprias; gestor enxerga todas.
+  podeSerVistaPor({ id, perfil }) {
+    return perfil === 'gestor' || this.pertenceA(id)
+  }
+}
+
+module.exports = Ocorrencia

@@ -3,6 +3,7 @@ const express = require('express')
 
 const errorHandler = require('../interfaces/http/middlewares/errorHandler')
 const criarAuthRoutes = require('../interfaces/http/routes/authRoutes')
+const criarOcorrenciaRoutes = require('../interfaces/http/routes/ocorrenciaRoutes')
 
 // Recebe o container pronto: em producao vem com os repositorios Mongoose,
 // nos testes de HTTP vem com dubles em memoria. A montagem do Express e a mesma.
@@ -17,6 +18,7 @@ function criarApp(container) {
   })
 
   app.use('/api/auth', criarAuthRoutes(container))
+  app.use('/api/ocorrencias', criarOcorrenciaRoutes(container))
 
   app.use((req, res) => {
     res.status(404).json({ erro: 'Rota nao encontrada' })
