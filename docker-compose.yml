@@ -13,7 +13,10 @@ services:
     env_file:
       - ./api/.env
     environment:
-      - MONGODB_URI=mongodb://mongo:27017/resolveai
+      # Por padrao usa o mongo deste compose, para um clone novo subir sem
+      # depender de conta na nuvem. Para apontar para o Atlas, exporte a
+      # variavel antes: MONGODB_URI="mongodb+srv://..." docker compose up -d api
+      - MONGODB_URI=${MONGODB_URI:-mongodb://mongo:27017/resolveai}
       - PORT=3000
       - CORS_ORIGIN=http://localhost:5173
     depends_on:

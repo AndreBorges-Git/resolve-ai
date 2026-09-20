@@ -122,6 +122,14 @@ O compose sobe Mongo, API e front. Ele **não monta volumes de código**: a imag
 que roda localmente é a mesma que vai para a nuvem, então mudanças no código
 pedem `docker compose up --build`.
 
+O Mongo do compose é o padrão, para um clone novo subir sem depender de conta em
+nuvem alguma. Para apontar a mesma pilha para o **MongoDB Atlas**, exporte a
+variável na chamada:
+
+```bash
+MONGODB_URI="mongodb+srv://usuario:senha@cluster.xxxxx.mongodb.net/resolveai?retryWrites=true&w=majority" docker compose up -d --build api
+```
+
 ### Sem Docker
 
 ```bash
