@@ -76,6 +76,31 @@ class OcorrenciaRepositoryFake extends OcorrenciaRepository {
   async remover(id) {
     this.itens = this.itens.filter((item) => item.id !== id)
   }
+
+  async indicadores() {
+    const contar = (campo) =>
+      this.itens.reduce(
+        (acumulado, item) => ({ ...acumulado, [item[campo]]: (acumulado[item[campo]] || 0) + 1 }),
+        {}
+      )
+
+    const resolvidas = this.itens.filter((item) => item.resolvidaEm)
+    const avaliadas = this.itens.filter((item) => item.avaliacao && item.avaliacao.nota)
+    const media = (lista, valor) =>
+      lista.length ? lista.reduce((soma, item) => soma + valor(item), 0) / lista.length : null
+
+    return {
+      total: this.itens.length,
+      porStatus: contar('status'),
+      porCategoria: contar('categoria'),
+      porPrioridade: contar('prioridade'),
+      tempoMedioResolucaoHoras: media(
+        resolvidas,
+        (item) => (item.resolvidaEm - item.createdAt) / (1000 * 60 * 60)
+      ),
+      avaliacaoMedia: media(avaliadas, (item) => item.avaliacao.nota)
+    }
+  }
 }
 
 module.exports = OcorrenciaRepositoryFake

@@ -5,6 +5,10 @@ function criarOcorrenciaController({
   listarOcorrencias,
   obterOcorrencia,
   alterarStatusOcorrencia,
+  alterarPrioridade,
+  atribuirResponsavel,
+  registrarSolucao,
+  avaliarResolucao,
   comentarOcorrencia,
   listarComentarios,
   listarHistorico
@@ -52,6 +56,63 @@ function criarOcorrenciaController({
         })
 
         res.json(ocorrencia)
+      } catch (erro) {
+        next(erro)
+      }
+    },
+
+    async alterarPrioridade(req, res, next) {
+      try {
+        res.json(
+          await alterarPrioridade.executar({
+            id: req.params.id,
+            prioridade: req.body.prioridade,
+            usuario: req.usuario
+          })
+        )
+      } catch (erro) {
+        next(erro)
+      }
+    },
+
+    async atribuirResponsavel(req, res, next) {
+      try {
+        res.json(
+          await atribuirResponsavel.executar({
+            id: req.params.id,
+            responsavelId: req.body.responsavelId,
+            usuario: req.usuario
+          })
+        )
+      } catch (erro) {
+        next(erro)
+      }
+    },
+
+    async registrarSolucao(req, res, next) {
+      try {
+        res.json(
+          await registrarSolucao.executar({
+            id: req.params.id,
+            solucaoAplicada: req.body.solucaoAplicada,
+            usuario: req.usuario
+          })
+        )
+      } catch (erro) {
+        next(erro)
+      }
+    },
+
+    async avaliar(req, res, next) {
+      try {
+        const ocorrencia = await avaliarResolucao.executar({
+          id: req.params.id,
+          nota: req.body.nota,
+          comentario: req.body.comentario,
+          usuario: req.usuario
+        })
+
+        res.status(201).json(ocorrencia)
       } catch (erro) {
         next(erro)
       }

@@ -1,9 +1,15 @@
+const AlterarPrioridade = require('../application/usecases/AlterarPrioridade')
 const AlterarStatusOcorrencia = require('../application/usecases/AlterarStatusOcorrencia')
+const AtribuirResponsavel = require('../application/usecases/AtribuirResponsavel')
 const AutenticarUsuario = require('../application/usecases/AutenticarUsuario')
+const AvaliarResolucao = require('../application/usecases/AvaliarResolucao')
 const ComentarOcorrencia = require('../application/usecases/ComentarOcorrencia')
 const ListarComentarios = require('../application/usecases/ListarComentarios')
 const ListarHistorico = require('../application/usecases/ListarHistorico')
 const ListarOcorrencias = require('../application/usecases/ListarOcorrencias')
+const ListarUsuarios = require('../application/usecases/ListarUsuarios')
+const ObterIndicadores = require('../application/usecases/ObterIndicadores')
+const RegistrarSolucao = require('../application/usecases/RegistrarSolucao')
 const ObterOcorrencia = require('../application/usecases/ObterOcorrencia')
 const ObterUsuarioAutenticado = require('../application/usecases/ObterUsuarioAutenticado')
 const RegistrarOcorrencia = require('../application/usecases/RegistrarOcorrencia')
@@ -55,6 +61,12 @@ function criarContainer({ jwtSecret = process.env.JWT_SECRET, jwtExpiracao = '7d
       ocorrenciaRepository,
       historicoRepository
     }),
+    alterarPrioridade: new AlterarPrioridade({ ocorrenciaRepository }),
+    atribuirResponsavel: new AtribuirResponsavel({ ocorrenciaRepository, usuarioRepository }),
+    registrarSolucao: new RegistrarSolucao({ ocorrenciaRepository }),
+    avaliarResolucao: new AvaliarResolucao({ ocorrenciaRepository }),
+    obterIndicadores: new ObterIndicadores({ ocorrenciaRepository }),
+    listarUsuarios: new ListarUsuarios({ usuarioRepository }),
     comentarOcorrencia: new ComentarOcorrencia({ ocorrenciaRepository, comentarioRepository }),
     listarComentarios: new ListarComentarios({ ocorrenciaRepository, comentarioRepository }),
     listarHistorico: new ListarHistorico({ ocorrenciaRepository, historicoRepository }),

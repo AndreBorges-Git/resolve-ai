@@ -1,9 +1,15 @@
+const AlterarPrioridade = require('../../src/application/usecases/AlterarPrioridade')
 const AlterarStatusOcorrencia = require('../../src/application/usecases/AlterarStatusOcorrencia')
+const AtribuirResponsavel = require('../../src/application/usecases/AtribuirResponsavel')
 const AutenticarUsuario = require('../../src/application/usecases/AutenticarUsuario')
+const AvaliarResolucao = require('../../src/application/usecases/AvaliarResolucao')
 const ComentarOcorrencia = require('../../src/application/usecases/ComentarOcorrencia')
 const ListarComentarios = require('../../src/application/usecases/ListarComentarios')
 const ListarHistorico = require('../../src/application/usecases/ListarHistorico')
 const ListarOcorrencias = require('../../src/application/usecases/ListarOcorrencias')
+const ListarUsuarios = require('../../src/application/usecases/ListarUsuarios')
+const ObterIndicadores = require('../../src/application/usecases/ObterIndicadores')
+const RegistrarSolucao = require('../../src/application/usecases/RegistrarSolucao')
 const ObterOcorrencia = require('../../src/application/usecases/ObterOcorrencia')
 const ObterUsuarioAutenticado = require('../../src/application/usecases/ObterUsuarioAutenticado')
 const RegistrarOcorrencia = require('../../src/application/usecases/RegistrarOcorrencia')
@@ -51,6 +57,12 @@ function criarContainerFake() {
       ocorrenciaRepository,
       historicoRepository
     }),
+    alterarPrioridade: new AlterarPrioridade({ ocorrenciaRepository }),
+    atribuirResponsavel: new AtribuirResponsavel({ ocorrenciaRepository, usuarioRepository }),
+    registrarSolucao: new RegistrarSolucao({ ocorrenciaRepository }),
+    avaliarResolucao: new AvaliarResolucao({ ocorrenciaRepository }),
+    obterIndicadores: new ObterIndicadores({ ocorrenciaRepository }),
+    listarUsuarios: new ListarUsuarios({ usuarioRepository }),
     comentarOcorrencia: new ComentarOcorrencia({ ocorrenciaRepository, comentarioRepository }),
     listarComentarios: new ListarComentarios({ ocorrenciaRepository, comentarioRepository }),
     listarHistorico: new ListarHistorico({ ocorrenciaRepository, historicoRepository }),

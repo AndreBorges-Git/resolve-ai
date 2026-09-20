@@ -127,6 +127,51 @@ class OcorrenciaRepositoryMongoose extends OcorrenciaRepository {
   async remover(id) {
     await OcorrenciaModel.findByIdAndDelete(id)
   }
+
+  // Uma unica ida ao banco com $facet: contagens, tempo medio de resolucao
+  // e nota media saem juntos.
+  async indicadores() {
+    const [resultado] = await OcorrenciaModel.aggregate([
+      {
+        $facet: {
+          total: [{ $count: 'valor' }],
+          porStatus: [{ $group: { _id: '$status', valor: { $sum: 1 } } }],
+          porCategoria: [{ $group: { _id: '$categoria', valor: { $sum: 1 } } }],
+          porPrioridade: [{ $group: { _id: '$prioridade', valor: { $sum: 1 } } }],
+          tempoMedio: [
+            { $match: { resolvidaEm: { $ne: null } } },
+            {
+              $group: {
+                _id: null,
+                valor: {
+                  $avg: {
+                    $divide: [{ $subtract: ['$resolvidaEm', '$createdAt'] }, 1000 * 60 * 60]
+                  }
+                }
+              }
+            }
+          ],
+          avaliacao: [
+            { $match: { 'avaliacao.nota': { $ne: null } } },
+            { $group: { _id: null, valor: { $avg: '$avaliacao.nota' } } }
+          ]
+        }
+      }
+    ])
+
+    const contar = (lista) =>
+      (lista || []).reduce((acumulado, item) => ({ ...acumulado, [item._id]: item.valor }), {})
+    const primeiro = (lista) => (lista && lista.length ? lista[0].valor : null)
+
+    return {
+      total: primeiro(resultado.total) || 0,
+      porStatus: contar(resultado.porStatus),
+      porCategoria: contar(resultado.porCategoria),
+      porPrioridade: contar(resultado.porPrioridade),
+      tempoMedioResolucaoHoras: primeiro(resultado.tempoMedio),
+      avaliacaoMedia: primeiro(resultado.avaliacao)
+    }
+  }
 }
 
 module.exports = OcorrenciaRepositoryMongoose

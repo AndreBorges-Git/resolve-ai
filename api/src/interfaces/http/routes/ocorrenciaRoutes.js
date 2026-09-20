@@ -19,6 +19,13 @@ function criarOcorrenciaRoutes(container) {
   // Mudanca de status e coisa de gestor; o 403 nasce aqui, antes do caso de uso.
   router.patch('/:id/status', requirePerfil('gestor'), controller.alterarStatus)
 
+  router.patch('/:id/prioridade', requirePerfil('gestor'), controller.alterarPrioridade)
+  router.patch('/:id/responsavel', requirePerfil('gestor'), controller.atribuirResponsavel)
+  router.patch('/:id/solucao', requirePerfil('gestor'), controller.registrarSolucao)
+
+  // Avaliacao e do solicitante dono; a checagem de posse fica no caso de uso.
+  router.post('/:id/avaliacao', requirePerfil('solicitante'), controller.avaliar)
+
   router.get('/:id/historico', controller.historico)
   router.post('/:id/comentarios', controller.comentar)
   router.get('/:id/comentarios', controller.comentarios)
