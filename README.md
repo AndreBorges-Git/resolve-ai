@@ -221,6 +221,7 @@ Coleção Postman em [`docs/postman/`](docs/postman/).
 
 | Documento | Conteúdo |
 |---|---|
+| [`docs/ENTREGA.md`](docs/ENTREGA.md) | links da entrega, checklist das 18 capacidades, roteiro do pitch, dívidas |
 | [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md) | camadas, máquina de estados, modelo de dados, deploy, monolito × microsserviços |
 | [`docs/ESPEC-TECNICA.md`](docs/ESPEC-TECNICA.md) | contrato de implementação |
 | [`docs/DESAFIO-RESOLVE-AI.md`](docs/DESAFIO-RESOLVE-AI.md) | requisitos oficiais do hackathon |

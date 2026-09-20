@@ -263,17 +263,19 @@ Se o tempo apertar, corte os graficos Recharts e deixe so os cartoes numericos.
 4. Varra o caminho feliz inteiro procurando bug e me liste o que encontrar.
 ```
 
-**Depois, sem o agente:** exportar a coleção Postman para `docs/postman/`, e **gravar o vídeo do MVP** seguindo o roteiro da seção 7 do plano. Aquecer a URL antes.
+**Feito:** seed, README, `docs/ARQUITETURA.md` e a coleção Postman em `docs/postman/` (commit `c9e6f9c`). A varredura do caminho feliz achou dois defeitos, ambos corrigidos: o gestor não via a avaliação do solicitante, e as mensagens de erro saíam sem acento.
+
+**Depois, sem o agente:** **gravar o vídeo do MVP** seguindo o roteiro da seção 7 do plano. Aquecer a URL antes.
 
 ---
 
 ## D9 — segunda 28/09 · pitch e entrega (3h)
 
-- [ ] Roteiro do pitch: problema, solução, demonstração curta, arquitetura, próximos passos
+- [x] Roteiro do pitch: problema, solução, demonstração curta, arquitetura, próximos passos — `docs/ENTREGA.md`, seção 3
 - [ ] Gravar o vídeo do pitch
 - [ ] Subir os dois vídeos no Drive, pasta pública
-- [ ] Documento de submissão com os links: Drive, repositório, aplicação, API
-- [ ] Revisar o checklist das 18 capacidades da seção 4 do plano
+- [x] Documento de submissão com os links: Drive, repositório, aplicação, API — `docs/ENTREGA.md`, seção 1 (faltam as URLs)
+- [x] Revisar o checklist das 18 capacidades da seção 4 do plano — `docs/ENTREGA.md`, seção 2: 17 de 18 prontas, só o deploy em nuvem pendente
 - [ ] **Submeter na plataforma** — hoje, não amanhã
 
 ---
