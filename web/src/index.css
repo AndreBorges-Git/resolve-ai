@@ -1,15 +1,8 @@
-:root {
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.5;
-  color: #1f2933;
-  background-color: #f5f7fa;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
+/* O visual mora no tema dos styled-components (src/styles/tema.js).
+   Aqui fica so o minimo que precisa existir antes do React montar. */
+html,
+body,
+#root {
   min-height: 100vh;
+  margin: 0;
 }
