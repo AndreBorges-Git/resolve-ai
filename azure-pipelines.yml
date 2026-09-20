@@ -1,0 +1,80 @@
+# Azure Pipelines — multi-stage (Fase 5, Aulas 3 e 4)
+# Usar apenas no Caminho A (Azure). No Caminho B, vale o .github/workflows/ci.yml.
+#
+# Antes de rodar, criar no Azure DevOps:
+#   - Service connection do tipo Azure Resource Manager  -> nome: svc-azure
+#   - Variable group "resolveai" com: acrName, acrLoginServer, webAppName, resourceGroup
+
+trigger:
+  branches:
+    include: [main]
+
+variables:
+  - group: resolveai
+  - name: imageName
+    value: 'resolveai-api'
+
+stages:
+  - stage: Build
+    displayName: Build e testes
+    jobs:
+      - job: testes
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '22.x'
+          - script: npm install
+            workingDirectory: api
+            displayName: 'API - instalar dependencias'
+          - script: npm test
+            workingDirectory: api
+            displayName: 'API - testes'
+            env:
+              JWT_SECRET: ci-secret
+          - script: npm install && npm run build
+            workingDirectory: web
+            displayName: 'Front - build'
+            env:
+              VITE_API_URL: $(apiUrl)
+
+  - stage: Push
+    displayName: Publicar imagem no ACR
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - job: docker
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: Docker@2
+            displayName: 'Build e push da imagem da API'
+            inputs:
+              containerRegistry: 'acr-resolveai'
+              repository: '$(imageName)'
+              command: 'buildAndPush'
+              Dockerfile: 'api/Dockerfile'
+              buildContext: 'api'
+              tags: |
+                $(Build.BuildId)
+                latest
+
+  - stage: Deploy
+    displayName: Deploy no Web App for Containers
+    dependsOn: Push
+    condition: succeeded()
+    jobs:
+      - deployment: webapp
+        pool:
+          vmImage: 'ubuntu-latest'
+        environment: 'producao'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebAppContainer@1
+                  inputs:
+                    azureSubscription: 'svc-azure'
+                    appName: '$(webAppName)'
+                    containers: '$(acrLoginServer)/$(imageName):$(Build.BuildId)'
