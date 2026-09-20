@@ -50,11 +50,11 @@ class Ocorrencia {
     updatedAt = null
   }) {
     if (!titulo || !String(titulo).trim()) {
-      throw new ValidacaoError('Titulo e obrigatorio')
+      throw new ValidacaoError('Título é obrigatório')
     }
 
     if (!descricao || !String(descricao).trim()) {
-      throw new ValidacaoError('Descricao e obrigatoria')
+      throw new ValidacaoError('Descrição é obrigatória')
     }
 
     if (!CATEGORIAS.includes(categoria)) {
@@ -62,7 +62,7 @@ class Ocorrencia {
     }
 
     if (!localizacao || !String(localizacao).trim()) {
-      throw new ValidacaoError('Localizacao e obrigatoria')
+      throw new ValidacaoError('Localização é obrigatória')
     }
 
     if (!PRIORIDADES.includes(prioridade)) {
@@ -74,7 +74,7 @@ class Ocorrencia {
     }
 
     if (!solicitante) {
-      throw new ValidacaoError('Solicitante e obrigatorio')
+      throw new ValidacaoError('Solicitante é obrigatório')
     }
 
     this.id = id
@@ -132,12 +132,12 @@ class Ocorrencia {
   // Unico caminho para mudar o status de uma ocorrencia.
   alterarStatus(novoStatus) {
     if (!STATUS.includes(novoStatus)) {
-      throw new ValidacaoError(`status invalido. Use: ${STATUS.join(', ')}`)
+      throw new ValidacaoError(`status inválido. Use: ${STATUS.join(', ')}`)
     }
 
     if (!this.podeTransicionarPara(novoStatus)) {
       throw new TransicaoInvalidaError(
-        `Nao e possivel mudar de '${this.status}' para '${novoStatus}'`
+        `Não é possível mudar de '${this.status}' para '${novoStatus}'`
       )
     }
 

@@ -39,7 +39,7 @@ class UsuarioRepositoryMongoose extends UsuarioRepository {
       // Corrida entre duas requisicoes com o mesmo e-mail: o indice unico
       // pega o que a checagem do caso de uso deixou passar.
       if (erro.code === 11000) {
-        throw new ValidacaoError('E-mail ja cadastrado')
+        throw new ValidacaoError('E-mail já cadastrado')
       }
 
       throw erro

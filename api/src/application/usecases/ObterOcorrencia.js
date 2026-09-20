@@ -13,11 +13,11 @@ class ObterOcorrencia {
     const ocorrencia = await this.ocorrenciaRepository.buscarPorId(id)
 
     if (!ocorrencia) {
-      throw new NaoEncontradoError('Ocorrencia nao encontrada')
+      throw new NaoEncontradoError('Ocorrência não encontrada')
     }
 
     if (!new Ocorrencia(ocorrencia).podeSerVistaPor(usuario)) {
-      throw new NaoAutorizadoError('Esta ocorrencia pertence a outro solicitante')
+      throw new NaoAutorizadoError('Esta ocorrência pertence a outro solicitante')
     }
 
     const [comentarios, historico] = await Promise.all([

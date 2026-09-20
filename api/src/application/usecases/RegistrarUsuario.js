@@ -15,7 +15,7 @@ class RegistrarUsuario {
     const jaExiste = await this.usuarioRepository.buscarPorEmail(emailNormalizado)
 
     if (jaExiste) {
-      throw new ValidacaoError('E-mail ja cadastrado')
+      throw new ValidacaoError('E-mail já cadastrado')
     }
 
     const hash = await this.hasher.gerarHash(senha)

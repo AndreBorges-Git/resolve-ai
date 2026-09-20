@@ -11,13 +11,13 @@ class AlterarStatusOcorrencia {
 
   async executar({ id, status, observacao = null, usuario }) {
     if (usuario.perfil !== 'gestor') {
-      throw new NaoAutorizadoError('Apenas gestores alteram o status de uma ocorrencia')
+      throw new NaoAutorizadoError('Apenas gestores alteram o status de uma ocorrência')
     }
 
     const registro = await this.ocorrenciaRepository.buscarPorId(id)
 
     if (!registro) {
-      throw new NaoEncontradoError('Ocorrencia nao encontrada')
+      throw new NaoEncontradoError('Ocorrência não encontrada')
     }
 
     const ocorrencia = new Ocorrencia(registro)

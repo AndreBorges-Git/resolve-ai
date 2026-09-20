@@ -18,7 +18,7 @@ class AlterarPrioridade {
     const atualizada = await this.ocorrenciaRepository.atualizar(id, { prioridade })
 
     if (!atualizada) {
-      throw new NaoEncontradoError('Ocorrencia nao encontrada')
+      throw new NaoEncontradoError('Ocorrência não encontrada')
     }
 
     return atualizada

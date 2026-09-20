@@ -7,13 +7,13 @@ function criarAuth(tokenService) {
     const [esquema, token] = cabecalho.split(' ')
 
     if (esquema !== 'Bearer' || !token) {
-      return next(new NaoAutenticadoError('Token nao informado'))
+      return next(new NaoAutenticadoError('Token não informado'))
     }
 
     const payload = tokenService.verificar(token)
 
     if (!payload) {
-      return next(new NaoAutenticadoError('Token invalido ou expirado'))
+      return next(new NaoAutenticadoError('Token inválido ou expirado'))
     }
 
     req.usuario = { id: payload.id, perfil: payload.perfil }

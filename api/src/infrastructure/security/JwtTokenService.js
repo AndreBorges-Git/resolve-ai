@@ -7,7 +7,7 @@ class JwtTokenService extends TokenService {
     super()
 
     if (!segredo) {
-      throw new Error('JWT_SECRET nao configurado')
+      throw new Error('JWT_SECRET não configurado')
     }
 
     this.segredo = segredo

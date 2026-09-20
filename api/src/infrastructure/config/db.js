@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 async function conectar(uri) {
   if (!uri) {
-    throw new Error('MONGODB_URI nao configurada')
+    throw new Error('MONGODB_URI não configurada')
   }
 
   mongoose.set('strictQuery', true)

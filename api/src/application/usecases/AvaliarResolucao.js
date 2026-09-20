@@ -29,13 +29,13 @@ class AvaliarResolucao {
     const registro = await this.ocorrenciaRepository.buscarPorId(id)
 
     if (!registro) {
-      throw new NaoEncontradoError('Ocorrencia nao encontrada')
+      throw new NaoEncontradoError('Ocorrência não encontrada')
     }
 
     const ocorrencia = new Ocorrencia(registro)
 
     if (!ocorrencia.pertenceA(usuario.id)) {
-      throw new NaoAutorizadoError('Apenas o solicitante que abriu a ocorrencia pode avaliar')
+      throw new NaoAutorizadoError('Apenas o solicitante que abriu a ocorrência pode avaliar')
     }
 
     if (ocorrencia.status !== 'resolvida') {
@@ -45,7 +45,7 @@ class AvaliarResolucao {
     }
 
     if (ocorrencia.avaliacao) {
-      throw new TransicaoInvalidaError('Esta ocorrencia ja foi avaliada')
+      throw new TransicaoInvalidaError('Esta ocorrência já foi avaliada')
     }
 
     return this.ocorrenciaRepository.atualizar(id, {

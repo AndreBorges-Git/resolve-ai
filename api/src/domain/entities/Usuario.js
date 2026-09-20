@@ -7,15 +7,15 @@ const TAMANHO_MINIMO_SENHA = 6
 class Usuario {
   constructor({ id = null, nome, email, senha, perfil = 'solicitante', createdAt = null }) {
     if (!nome || !String(nome).trim()) {
-      throw new ValidacaoError('Nome e obrigatorio')
+      throw new ValidacaoError('Nome é obrigatório')
     }
 
     if (!email || !String(email).trim()) {
-      throw new ValidacaoError('E-mail e obrigatorio')
+      throw new ValidacaoError('E-mail é obrigatório')
     }
 
     if (!Usuario.ehEmailValido(email)) {
-      throw new ValidacaoError('E-mail invalido')
+      throw new ValidacaoError('E-mail inválido')
     }
 
     if (!PERFIS.includes(perfil)) {

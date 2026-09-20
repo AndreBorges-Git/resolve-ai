@@ -9,7 +9,7 @@ class ListarUsuarios {
 
   async executar({ perfil, usuario }) {
     if (usuario.perfil !== 'gestor') {
-      throw new NaoAutorizadoError('Apenas gestores consultam a lista de usuarios')
+      throw new NaoAutorizadoError('Apenas gestores consultam a lista de usuários')
     }
 
     if (perfil && !Usuario.PERFIS.includes(perfil)) {

@@ -200,8 +200,11 @@ function DetalheOcorrencia() {
         <Coluna>
           {ehGestor && <PainelAcoesGestor ocorrencia={ocorrencia} aoAtualizar={aposAcaoDoGestor} />}
 
-          {ehDono && (podeAvaliar || ocorrencia.avaliacao) && (
-            <BlocoAvaliacao avaliacao={ocorrencia.avaliacao} aoAvaliar={avaliar} />
+          {/* A nota ja dada e visivel para quem enxerga a ocorrencia — inclusive o
+              gestor, que e quem precisa do retorno. O formulario, esse so aparece
+              para o dono, e so enquanto nao houver avaliacao. */}
+          {(ocorrencia.avaliacao || podeAvaliar) && (
+            <BlocoAvaliacao avaliacao={ocorrencia.avaliacao} ehDono={ehDono} aoAvaliar={avaliar} />
           )}
         </Coluna>
       </Colunas>

@@ -11,13 +11,13 @@ class RegistrarSolucao {
 
   async executar({ id, solucaoAplicada, usuario }) {
     if (usuario.perfil !== 'gestor') {
-      throw new NaoAutorizadoError('Apenas gestores registram a solucao')
+      throw new NaoAutorizadoError('Apenas gestores registram a solução')
     }
 
     const texto = typeof solucaoAplicada === 'string' ? solucaoAplicada.trim() : ''
 
     if (!texto) {
-      throw new ValidacaoError('solucaoAplicada e obrigatoria')
+      throw new ValidacaoError('solucaoAplicada é obrigatória')
     }
 
     if (texto.length > TAMANHO_MAXIMO) {
@@ -27,7 +27,7 @@ class RegistrarSolucao {
     const atualizada = await this.ocorrenciaRepository.atualizar(id, { solucaoAplicada: texto })
 
     if (!atualizada) {
-      throw new NaoEncontradoError('Ocorrencia nao encontrada')
+      throw new NaoEncontradoError('Ocorrência não encontrada')
     }
 
     return atualizada

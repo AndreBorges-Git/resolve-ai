@@ -10,7 +10,7 @@ class AutenticarUsuario {
 
   async executar({ email, senha }) {
     if (!email || !senha) {
-      throw new NaoAutenticadoError('E-mail e senha sao obrigatorios')
+      throw new NaoAutenticadoError('E-mail e senha são obrigatórios')
     }
 
     const emailNormalizado = Usuario.normalizarEmail(email)

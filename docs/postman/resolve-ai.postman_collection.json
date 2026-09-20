@@ -1,0 +1,419 @@
+{
+  "info": {
+    "name": "Resolve Aí — API",
+    "description": "Gestão de ocorrências com trilha de auditoria. FIAP Full Stack Development, Fase 5.\n\nComo usar:\n1. Importe também o environment `resolve-ai.postman_environment.json` e selecione-o.\n2. Rode `Autenticação > Login (gestor)` ou `Login (solicitante)` — o token é gravado automaticamente na variável `token` pelo script de teste.\n3. As demais requisições já herdam o Bearer desse token.\n\nCredenciais criadas por `npm run seed`: gestor@resolveai.com, marina@resolveai.com e joao@resolveai.com, todas com a senha Senha123.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api" },
+    { "key": "token", "value": "" },
+    { "key": "ocorrenciaId", "value": "" },
+    { "key": "gestorId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Saúde",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] },
+            "description": "Verificação de vida. Útil para acordar a API quando ela hiberna no plano gratuito."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Autenticação",
+      "item": [
+        {
+          "name": "Registrar conta",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201 Created', () => pm.response.to.have.status(201))",
+                  "const corpo = pm.response.json()",
+                  "if (corpo.token) pm.collectionVariables.set('token', corpo.token)"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Novo Solicitante\",\n  \"email\": \"novo@resolveai.com\",\n  \"senha\": \"Senha123\",\n  \"perfil\": \"solicitante\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/registrar", "host": ["{{baseUrl}}"], "path": ["auth", "registrar"] },
+            "description": "Cria a conta e já devolve o token. `perfil` aceita `solicitante` ou `gestor`.\n\nE-mail repetido responde 400."
+          },
+          "response": []
+        },
+        {
+          "name": "Login (gestor)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200))",
+                  "const corpo = pm.response.json()",
+                  "pm.collectionVariables.set('token', corpo.token)",
+                  "pm.collectionVariables.set('gestorId', corpo.usuario.id)"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"gestor@resolveai.com\",\n  \"senha\": \"Senha123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] },
+            "description": "Grava o token e o id do gestor nas variáveis da coleção. Credencial errada responde 401."
+          },
+          "response": []
+        },
+        {
+          "name": "Login (solicitante)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200))",
+                  "pm.collectionVariables.set('token', pm.response.json().token)"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"marina@resolveai.com\",\n  \"senha\": \"Senha123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Eu",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/auth/eu", "host": ["{{baseUrl}}"], "path": ["auth", "eu"] },
+            "description": "Dados do usuário do token. É o que o front usa para revalidar a sessão ao abrir. Sem token, 401."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ocorrências",
+      "item": [
+        {
+          "name": "Registrar ocorrência (JSON)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201 Created', () => pm.response.to.have.status(201))",
+                  "pm.collectionVariables.set('ocorrenciaId', pm.response.json().id)",
+                  "pm.test('nasce aberta', () => pm.expect(pm.response.json().status).to.eql('aberta'))"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Lampada queimada no corredor do terceo andar\",\n  \"descricao\": \"A lampada do fim do corredor nao acende ha quatro dias e o trecho fica no escuro a noite.\",\n  \"categoria\": \"iluminacao\",\n  \"localizacao\": \"Terceiro andar - fim do corredor\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/ocorrencias", "host": ["{{baseUrl}}"], "path": ["ocorrencias"] },
+            "description": "Toda ocorrência nasce `aberta` e já ganha o primeiro registro de auditoria, com `statusAnterior: null`.\n\n`categoria` aceita: iluminacao, equipamento, acessibilidade, limpeza, vazamento, seguranca, manutencao, outros.\n\nCampo faltando ou categoria inválida responde 400."
+          },
+          "response": []
+        },
+        {
+          "name": "Registrar ocorrência (com imagem)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "titulo", "value": "Vazamento no hidrante da esquina", "type": "text" },
+                { "key": "descricao", "value": "Agua escorrendo do hidrante desde ontem, formando poca na calcada.", "type": "text" },
+                { "key": "categoria", "value": "vazamento", "type": "text" },
+                { "key": "localizacao", "value": "Rua Aurora, esquina com a Rua das Flores", "type": "text" },
+                { "key": "imagem", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/ocorrencias", "host": ["{{baseUrl}}"], "path": ["ocorrencias"] },
+            "description": "Mesma rota, `multipart/form-data`. O arquivo vai no campo `imagem`, é recebido em memória pelo multer e enviado ao Cloudinary — nada toca o disco do container.\n\nSelecione um arquivo no campo `imagem` antes de enviar."
+          },
+          "response": []
+        },
+        {
+          "name": "Listar ocorrências",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias?status=&categoria=&prioridade=&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["ocorrencias"],
+              "query": [
+                { "key": "status", "value": "", "description": "aberta | em_analise | em_atendimento | resolvida | cancelada" },
+                { "key": "categoria", "value": "", "description": "iluminacao | equipamento | acessibilidade | limpeza | vazamento | seguranca | manutencao | outros" },
+                { "key": "prioridade", "value": "", "description": "baixa | media | alta" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "description": "Gestor vê todas; solicitante vê só as próprias — o filtro por dono é aplicado no caso de uso, não no cliente.\n\nResponde `{ itens, total, page, limit, paginas }`. Os filtros são combináveis."
+          },
+          "response": []
+        },
+        {
+          "name": "Obter ocorrência",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{ocorrenciaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["ocorrencias", "{{ocorrenciaId}}"]
+            },
+            "description": "Detalhe completo numa resposta só: a ocorrência, mais `comentarios` e `historico`.\n\nSolicitante pedindo ocorrência de outro responde 403. Id inexistente, 404."
+          },
+          "response": []
+        },
+        {
+          "name": "Histórico (trilha de auditoria)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{ocorrenciaId}}/historico",
+              "host": ["{{baseUrl}}"],
+              "path": ["ocorrencias", "{{ocorrenciaId}}", "historico"]
+            },
+            "description": "Cada registro traz `statusAnterior`, `statusNovo`, `usuario`, `observacao` e `data`. O primeiro tem `statusAnterior: null` — é a abertura."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ações do gestor",
+      "item": [
+        {
+          "name": "Alterar status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200))",
+                  "pm.test('a auditoria foi gravada', () => {",
+                  "  pm.sendRequest({",
+                  "    url: pm.collectionVariables.get('baseUrl') + '/ocorrencias/' + pm.collectionVariables.get('ocorrenciaId') + '/historico',",
+                  "    method: 'GET',",
+                  "    header: { Authorization: 'Bearer ' + pm.collectionVariables.get('token') }",
+                  "  }, (erro, resposta) => {",
+                  "    pm.expect(resposta.json().length).to.be.above(1)",
+                  "  })",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"em_analise\",\n  \"observacao\": \"Equipe de campo acionada para vistoriar.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{ocorrenciaId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["ocorrencias", "{{ocorrenciaId}}", "status"]
+            },
+            "description": "**O endpoint mais importante do projeto.** Valida a transição pela máquina de estados do domínio, muda o status e grava a trilha de auditoria na mesma operação. Se a gravação do histórico falhar, a mudança de status é desfeita.\n\nCaminho: aberta → em_analise → em_atendimento → resolvida. De qualquer status não final dá para ir a `cancelada`.\n\nTransição inválida (ex.: aberta → resolvida, ou qualquer coisa a partir de resolvida) responde **409**. Solicitante tentando, **403**."
+          },
+          "response": []
+        },
+        {
+          "name": "Alterar status — transição inválida (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('409 Conflict', () => pm.response.to.have.status(409))"]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"resolvida\",\n  \"observacao\": \"Pulando etapas de proposito, para provar que o dominio barra.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{ocorrenciaId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["ocorrencias", "{{ocorrenciaId}}", "status"]
+            },
+            "description": "Rode logo depois de registrar a ocorrência: pular de `aberta` direto para `resolvida` é recusado pela entidade, não pelo controller."
+          },
+          "response": []
+        },
+        {
+          "name": "Alterar prioridade",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"prioridade\": \"alta\"\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{ocorrenciaId}}/prioridade",
+              "host": ["{{baseUrl}}"],
+              "path": ["ocorrencias", "{{ocorrenciaId}}", "prioridade"]
+            },
+            "description": "`baixa`, `media` ou `alta`. Valor fora da lista responde 400."
+          },
+          "response": []
+        },
+        {
+          "name": "Atribuir responsável",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"responsavelId\": \"{{gestorId}}\"\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{ocorrenciaId}}/responsavel",
+              "host": ["{{baseUrl}}"],
+              "path": ["ocorrencias", "{{ocorrenciaId}}", "responsavel"]
+            },
+            "description": "O responsável precisa ser um usuário com perfil `gestor` — caso contrário, 400. Use `GET /usuarios?perfil=gestor` para escolher."
+          },
+          "response": []
+        },
+        {
+          "name": "Registrar solução aplicada",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"solucaoAplicada\": \"Reator queimado substituido e lampada de LED instalada no lugar da antiga.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{ocorrenciaId}}/solucao",
+              "host": ["{{baseUrl}}"],
+              "path": ["ocorrencias", "{{ocorrenciaId}}", "solucao"]
+            },
+            "description": "O campo é `solucaoAplicada`, até 2000 caracteres.\n\nRegistrar a solução **não move o status**: quem move é o endpoint de status, que é quem grava a trilha."
+          },
+          "response": []
+        },
+        {
+          "name": "Listar usuários",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/usuarios?perfil=gestor",
+              "host": ["{{baseUrl}}"],
+              "path": ["usuarios"],
+              "query": [{ "key": "perfil", "value": "gestor", "description": "solicitante | gestor" }]
+            },
+            "description": "Exclusivo do gestor — é o que alimenta o seletor de responsável. Solicitante recebe 403."
+          },
+          "response": []
+        },
+        {
+          "name": "Dashboard de indicadores",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/dashboard", "host": ["{{baseUrl}}"], "path": ["dashboard"] },
+            "description": "Total, contagem por status, por categoria e por prioridade, tempo médio de resolução em horas e nota média — tudo numa única agregação `$facet`.\n\nExclusivo do gestor: solicitante recebe 403."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Solicitante",
+      "item": [
+        {
+          "name": "Comentar",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"texto\": \"Consigo enviar mais fotos se ajudar.\"\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{ocorrenciaId}}/comentarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["ocorrencias", "{{ocorrenciaId}}", "comentarios"]
+            },
+            "description": "Os dois perfis comentam. O solicitante só nas próprias ocorrências."
+          },
+          "response": []
+        },
+        {
+          "name": "Listar comentários",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{ocorrenciaId}}/comentarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["ocorrencias", "{{ocorrenciaId}}", "comentarios"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Avaliar a resolução",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nota\": 5,\n  \"comentario\": \"Resolveram rapido e ainda avisaram quando terminaram.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{ocorrenciaId}}/avaliacao",
+              "host": ["{{baseUrl}}"],
+              "path": ["ocorrencias", "{{ocorrenciaId}}", "avaliacao"]
+            },
+            "description": "Três guardas, nesta ordem:\n\n- gestor tentando avaliar → **403** (o middleware barra antes do caso de uso)\n- solicitante que não é o dono → **403**\n- ocorrência ainda não `resolvida`, ou já avaliada → **409**\n- nota fora de 1–5 → **400**\n\nSucesso responde **201**. Faça o login como solicitante antes de rodar."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

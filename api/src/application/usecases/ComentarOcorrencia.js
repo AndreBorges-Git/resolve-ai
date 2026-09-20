@@ -14,7 +14,7 @@ class ComentarOcorrencia {
     const conteudo = typeof texto === 'string' ? texto.trim() : ''
 
     if (!conteudo) {
-      throw new ValidacaoError('texto do comentario e obrigatorio')
+      throw new ValidacaoError('texto do comentário é obrigatório')
     }
 
     if (conteudo.length > TAMANHO_MAXIMO) {
@@ -24,11 +24,11 @@ class ComentarOcorrencia {
     const registro = await this.ocorrenciaRepository.buscarPorId(id)
 
     if (!registro) {
-      throw new NaoEncontradoError('Ocorrencia nao encontrada')
+      throw new NaoEncontradoError('Ocorrência não encontrada')
     }
 
     if (!new Ocorrencia(registro).podeSerVistaPor(usuario)) {
-      throw new NaoAutorizadoError('Esta ocorrencia pertence a outro solicitante')
+      throw new NaoAutorizadoError('Esta ocorrência pertence a outro solicitante')
     }
 
     return this.comentarioRepository.salvar({ ocorrencia: id, autor: usuario.id, texto: conteudo })

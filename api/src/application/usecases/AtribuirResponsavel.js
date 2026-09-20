@@ -10,27 +10,27 @@ class AtribuirResponsavel {
 
   async executar({ id, responsavelId, usuario }) {
     if (usuario.perfil !== 'gestor') {
-      throw new NaoAutorizadoError('Apenas gestores atribuem responsavel')
+      throw new NaoAutorizadoError('Apenas gestores atribuem responsável')
     }
 
     if (!responsavelId) {
-      throw new ValidacaoError('responsavelId e obrigatorio')
+      throw new ValidacaoError('responsavelId é obrigatório')
     }
 
     const responsavel = await this.usuarioRepository.buscarPorId(responsavelId)
 
     if (!responsavel) {
-      throw new NaoEncontradoError('Responsavel nao encontrado')
+      throw new NaoEncontradoError('Responsável não encontrado')
     }
 
     if (responsavel.perfil !== 'gestor') {
-      throw new ValidacaoError('O responsavel precisa ter perfil gestor')
+      throw new ValidacaoError('O responsável precisa ter perfil gestor')
     }
 
     const atualizada = await this.ocorrenciaRepository.atualizar(id, { responsavel: responsavelId })
 
     if (!atualizada) {
-      throw new NaoEncontradoError('Ocorrencia nao encontrada')
+      throw new NaoEncontradoError('Ocorrência não encontrada')
     }
 
     return atualizada

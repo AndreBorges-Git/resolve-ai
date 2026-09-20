@@ -21,7 +21,8 @@ const Meta = styled.p`
 
 // Avaliar so faz sentido depois de resolvida e so para quem abriu. Quem decide e
 // o caso de uso: aqui apenas evitamos oferecer o que seria recusado com 409.
-function BlocoAvaliacao({ avaliacao, aoAvaliar }) {
+// Ja a nota registrada e lida por todos que enxergam a ocorrencia.
+function BlocoAvaliacao({ avaliacao, ehDono = true, aoAvaliar }) {
   const [nota, setNota] = useState(0)
   const [comentario, setComentario] = useState('')
   const [erro, setErro] = useState(null)
@@ -30,7 +31,7 @@ function BlocoAvaliacao({ avaliacao, aoAvaliar }) {
   if (avaliacao) {
     return (
       <Cartao>
-        <Titulo>Sua avaliação</Titulo>
+        <Titulo>{ehDono ? 'Sua avaliação' : 'Avaliação do solicitante'}</Titulo>
         <Estrelas nota={avaliacao.nota} somenteLeitura />
         {avaliacao.comentario && <Meta>“{avaliacao.comentario}”</Meta>}
         <Meta>Avaliada em {formatarDataHora(avaliacao.data)}</Meta>

@@ -33,7 +33,7 @@ class RegistrarOcorrencia {
         statusAnterior: null,
         statusNovo: salva.status,
         usuario: usuario.id,
-        observacao: 'Ocorrencia registrada'
+        observacao: 'Ocorrência registrada'
       })
     } catch (erro) {
       // Ocorrencia sem trilha de auditoria nao pode existir: desfaz.

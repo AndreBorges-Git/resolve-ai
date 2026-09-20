@@ -25,7 +25,7 @@ api.interceptors.response.use(
   (resposta) => resposta,
   (erro) => {
     const mensagem =
-      erro.response?.data?.erro || erro.response?.data?.mensagem || 'Nao foi possivel completar a operacao'
+      erro.response?.data?.erro || erro.response?.data?.mensagem || 'Não foi possível completar a operação'
     const normalizado = new Error(mensagem)
 
     normalizado.status = erro.response?.status ?? 0

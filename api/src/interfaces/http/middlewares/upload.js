@@ -10,7 +10,7 @@ const upload = multer({
   limits: { fileSize: TAMANHO_MAXIMO },
   fileFilter: (req, arquivo, callback) => {
     if (!TIPOS_ACEITOS.includes(arquivo.mimetype)) {
-      const erro = new Error('Formato de imagem invalido. Use JPEG, PNG, WEBP ou GIF')
+      const erro = new Error('Formato de imagem inválido. Use JPEG, PNG, WEBP ou GIF')
       erro.name = 'ValidacaoError'
       return callback(erro)
     }

@@ -10,7 +10,7 @@ Toda dependência chega pelo **construtor** — quem instancia é `main/containe
 Interfaces que a infraestrutura implementa: `OcorrenciaRepository`, `HistoricoRepository`,
 `UsuarioRepository`, `ComentarioRepository`, `ArmazenamentoImagem`, `Hasher`, `TokenService`.
 
-Em CommonJS, uma "interface" é uma classe com métodos que lançam `new Error('não implementado')`.
+Em CommonJS, uma "interface" é uma classe com métodos que lançam `new Error('nao implementado')`.
 Serve de documentação e de base para os dublês de teste.
 
 ## usecases/

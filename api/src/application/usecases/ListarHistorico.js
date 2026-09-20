@@ -12,11 +12,11 @@ class ListarHistorico {
     const registro = await this.ocorrenciaRepository.buscarPorId(id)
 
     if (!registro) {
-      throw new NaoEncontradoError('Ocorrencia nao encontrada')
+      throw new NaoEncontradoError('Ocorrência não encontrada')
     }
 
     if (!new Ocorrencia(registro).podeSerVistaPor(usuario)) {
-      throw new NaoAutorizadoError('Esta ocorrencia pertence a outro solicitante')
+      throw new NaoAutorizadoError('Esta ocorrência pertence a outro solicitante')
     }
 
     return this.historicoRepository.listarPorOcorrencia(id)

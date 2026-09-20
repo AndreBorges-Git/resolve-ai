@@ -25,7 +25,7 @@ function criarApp(container) {
   app.use('/api/usuarios', criarUsuarioRoutes(container))
 
   app.use((req, res) => {
-    res.status(404).json({ erro: 'Rota nao encontrada' })
+    res.status(404).json({ erro: 'Rota não encontrada' })
   })
 
   app.use(errorHandler)

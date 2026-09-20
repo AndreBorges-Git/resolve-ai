@@ -26,7 +26,7 @@ class CloudinaryArmazenamentoImagem extends ArmazenamentoImagem {
     }
 
     if (!this.configurado) {
-      throw new Error('Cloudinary nao configurado: defina CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY e CLOUDINARY_API_SECRET')
+      throw new Error('Cloudinary não configurado: defina CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY e CLOUDINARY_API_SECRET')
     }
 
     // upload_stream para enviar o buffer do multer sem tocar em disco.

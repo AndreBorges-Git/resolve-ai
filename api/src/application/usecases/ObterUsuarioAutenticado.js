@@ -10,7 +10,7 @@ class ObterUsuarioAutenticado {
     const encontrado = await this.usuarioRepository.buscarPorId(usuarioId)
 
     if (!encontrado) {
-      throw new NaoEncontradoError('Usuario nao encontrado')
+      throw new NaoEncontradoError('Usuário não encontrado')
     }
 
     return new Usuario(encontrado).paraJSON()
