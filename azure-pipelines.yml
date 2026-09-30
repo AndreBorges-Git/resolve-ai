@@ -1,9 +1,12 @@
 # Azure Pipelines — multi-stage (Fase 5, Aulas 3 e 4)
-# Usar apenas no Caminho A (Azure). No Caminho B, vale o .github/workflows/ci.yml.
 #
-# Antes de rodar, criar no Azure DevOps:
-#   - Service connection do tipo Azure Resource Manager  -> nome: svc-azure
-#   - Variable group "resolveai" com: acrName, acrLoginServer, webAppName, resourceGroup
+# Organizacao: dev.azure.com/RM365669 · projeto: resolve-ai
+# Ja provisionados na organizacao:
+#   - Conexao Azure Resource Manager  -> svc-azure
+#   - Conexao Docker Registry (ACR)   -> acr-resolveai
+#   - Grupo de variaveis              -> resolveai
+#
+# No Caminho B (sem Azure), vale o .github/workflows/ci.yml.
 
 trigger:
   branches:
@@ -11,8 +14,10 @@ trigger:
 
 variables:
   - group: resolveai
-  - name: imageName
+  - name: imageApi
     value: 'resolveai-api'
+  - name: imageWeb
+    value: 'resolveai-web'
 
 stages:
   - stage: Build
@@ -40,7 +45,7 @@ stages:
               VITE_API_URL: $(apiUrl)
 
   - stage: Push
-    displayName: Publicar imagem no ACR
+    displayName: Publicar imagens no ACR
     dependsOn: Build
     condition: succeeded()
     jobs:
@@ -49,10 +54,10 @@ stages:
           vmImage: 'ubuntu-latest'
         steps:
           - task: Docker@2
-            displayName: 'Build e push da imagem da API'
+            displayName: 'API - build e push'
             inputs:
               containerRegistry: 'acr-resolveai'
-              repository: '$(imageName)'
+              repository: '$(imageApi)'
               command: 'buildAndPush'
               Dockerfile: 'api/Dockerfile'
               buildContext: 'api'
@@ -60,12 +65,39 @@ stages:
                 $(Build.BuildId)
                 latest
 
+          # O front vai em dois passos porque o Vite congela import.meta.env
+          # na compilacao: a URL da API precisa entrar como argumento de build,
+          # e o buildAndPush nao repassa argumentos.
+          - task: Docker@2
+            displayName: 'Front - build'
+            inputs:
+              containerRegistry: 'acr-resolveai'
+              repository: '$(imageWeb)'
+              command: 'build'
+              Dockerfile: 'web/Dockerfile.prod'
+              buildContext: 'web'
+              arguments: '--build-arg VITE_API_URL=$(apiUrl)'
+              tags: |
+                $(Build.BuildId)
+                latest
+
+          - task: Docker@2
+            displayName: 'Front - push'
+            inputs:
+              containerRegistry: 'acr-resolveai'
+              repository: '$(imageWeb)'
+              command: 'push'
+              tags: |
+                $(Build.BuildId)
+                latest
+
   - stage: Deploy
-    displayName: Deploy no Web App for Containers
+    displayName: Deploy nos Web Apps for Containers
     dependsOn: Push
     condition: succeeded()
     jobs:
-      - deployment: webapp
+      - deployment: api
+        displayName: 'API'
         pool:
           vmImage: 'ubuntu-latest'
         environment: 'producao'
@@ -77,4 +109,19 @@ stages:
                   inputs:
                     azureSubscription: 'svc-azure'
                     appName: '$(webAppName)'
-                    containers: '$(acrLoginServer)/$(imageName):$(Build.BuildId)'
+                    containers: '$(acrLoginServer)/$(imageApi):$(Build.BuildId)'
+
+      - deployment: front
+        displayName: 'Front'
+        pool:
+          vmImage: 'ubuntu-latest'
+        environment: 'producao'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebAppContainer@1
+                  inputs:
+                    azureSubscription: 'svc-azure'
+                    appName: '$(webAppNameWeb)'
+                    containers: '$(acrLoginServer)/$(imageWeb):$(Build.BuildId)'
