@@ -1,6 +1,6 @@
 # Resolve Aí — contexto do projeto
 
-Hackathon final da pós FIAP Full Stack Development (6FSDT, Fase 5). **Entrega: 29/09/2026.**
+Hackathon final da pós FIAP Full Stack Development (6FSDT, Fase 5). **Entrega: 09/10/2026.**
 Plataforma de gestão de ocorrências: solicitantes registram problemas do dia a dia
 (iluminação, vazamento, limpeza, segurança, manutenção) e gestores acompanham até a
 resolução, com trilha de auditoria de cada mudança de status.

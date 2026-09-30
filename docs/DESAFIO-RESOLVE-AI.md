@@ -37,6 +37,17 @@ A solução deverá contemplar:
 | 7 | **Docker** | ⬜ obrigatório, não opcional |
 | 8 | **Deploy em Cloud** | ⬜ obrigatório — não basta rodar local |
 | 9 | Documentação | ⬜ |
+| 10 | **Fluxograma** | ⬜ — perfis e responsabilidades · ciclo de vida da ocorrência · fluxo geral · perfis de usuário |
+
+> ⚠️ **Correção (29/09/2026).** A lista acima tinha nove linhas. O PDF traz **dez**:
+> o `Fluxograma` não foi transcrito. Ele não é um diagrama
+> solto — o enunciado nomeia os quatro recortes que ele deve cobrir, listados na
+> linha 10. Nenhum deles existia em `docs/` até esta data.
+
+**Prazo:** o PDF **não traz data alguma** — só a frase genérica *"é importante atentar-se
+ao prazo de entrega"*. A data real está no portal da FIAP: **"Entregue seu Hackaton — DE
+22/07/2026 A 09/10/2026"**, com o rótulo *"Atividade: a ser entregue até 09/10 — Em grupo"*.
+O Hackathon vale **90% da nota final** da fase.
 
 **Formato:** "em princípio, deve ser desenvolvida em grupo." O enunciado não diz que solo é permitido nem que é proibido — precisa ser confirmado com a coordenação.
 

@@ -1,6 +1,12 @@
 # Resolve Aí — Plano de 9 dias
 
-**Hoje:** domingo, 20/09/2026 · **Entrega:** 29/09/2026 (confirmada) · **Solo**, autorizado · **Capacidade:** 20h+
+**Hoje:** domingo, 20/09/2026 · **Entrega:** 09/10/2026 · **Solo**, autorizado · **Capacidade:** 20h+
+
+> ⚠️ **Correcao de data (29/09/2026).** Este plano foi escrito para 29/09, que era a data
+> que tinhamos. O portal da FIAP mostra o prazo real: **"Entregue seu Hackaton — DE
+> 22/07/2026 A 09/10/2026"**, "a ser entregue ate 09/10". O cronograma de nove dias
+> abaixo continua valido como registro do que foi feito ate 29/09; os dez dias que
+> sobraram vao para o que ficou de fora — fluxograma, front publicado e esteira.
 Contrato de implementação em `ESPEC-TECNICA.md` · Requisitos em `DESAFIO-RESOLVE-AI.md`
 
 ---
