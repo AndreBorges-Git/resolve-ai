@@ -97,9 +97,14 @@ container, com `web/Dockerfile.prod` e fallback de SPA para o React Router.
 
 **Esteira rodando.** `azure-pipelines.yml` em três estágios na organização
 `dev.azure.com/RM365669`, projeto `resolve-ai`: testes → build e push das duas
-imagens no ACR → deploy nos dois Web Apps. A execução nº 2 fechou verde e os
-Web Apps passaram a servir as imagens `:2`, marcadas com o número da execução —
+imagens no ACR → deploy nos dois Web Apps. A execução nº 6 fechou verde e os
+Web Apps passaram a servir as imagens `:6`, marcadas com o número da execução —
 é assim que se confere que quem publicou foi a esteira, e não um push manual.
+
+O `trigger` do YAML aponta para `main`, mas o disparo por push nem sempre pega
+no espelho: a execução nº 6 precisou ser enfileirada pela API de builds. Não
+muda o que a esteira faz, e fica registrado para não parecer que alguém
+publicou por fora.
 
 O código está espelhado no Azure Repos porque ligar o pipeline ao GitHub exigiria
 autorização OAuth; o GitHub segue como repositório oficial da entrega.
