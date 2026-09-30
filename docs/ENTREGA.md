@@ -41,7 +41,7 @@ caçar no código.
 | 3 | Registrar uma ocorrência | `POST /api/ocorrencias` · `RegistrarOcorrencia.js` | ✅ |
 | 4 | Título, descrição e categoria | validados em `domain/entities/Ocorrencia.js` | ✅ |
 | 5 | Informar localização | campo obrigatório na mesma entidade | ✅ |
-| 6 | Anexar uma imagem | `imagemOpcional('imagem')` → Cloudinary | ✅ |
+| 6 | Anexar uma imagem | `imagemOpcional('imagem')` → Cloudinary (upload verificado) | ✅ |
 | 7 | Acompanhar o andamento | `GET /api/ocorrencias` · `MinhasOcorrencias.jsx` | ✅ |
 | 8 | Adicionar comentários | `POST /api/ocorrencias/:id/comentarios` | ✅ |
 | 9 | Consultar o histórico | `GET /api/ocorrencias/:id/historico` · `Timeline.jsx` | ✅ |
@@ -74,8 +74,9 @@ caçar no código.
 | Deploy em Cloud | Azure Web App for Containers + ACR — **pendente das credenciais** | ⏳ |
 | Documentação | `README.md`, `docs/`, um `README.md` por camada da API | ✅ |
 
-**Pendência única:** o deploy em nuvem depende de contas que só o autor pode criar
-(MongoDB Atlas, Cloudinary e a assinatura Azure). O pipeline
+**Pendência única:** o deploy em nuvem. MongoDB Atlas e Cloudinary já estão
+ligados e verificados — o banco de demonstração roda no Atlas e o upload de
+imagem devolve URL pública do Cloudinary. Falta a assinatura Azure; o pipeline
 (`azure-pipelines.yml`) e o `Dockerfile` de produção já estão versionados.
 
 ---
