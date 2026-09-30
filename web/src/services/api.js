@@ -3,6 +3,14 @@ import axios from 'axios'
 export const CHAVE_TOKEN = 'resolveai:token'
 export const CHAVE_USUARIO = 'resolveai:usuario'
 
+// O AuthContext escuta este evento para derrubar a sessao. Passar por evento,
+// e nao por window.location, mantem a navegacao dentro do React Router.
+export const EVENTO_SESSAO_EXPIRADA = 'resolveai:sessao-expirada'
+
+// Um 401 nestas rotas e credencial errada, nao sessao vencida: aqui o 401 e a
+// resposta esperada e a tela precisa mostrar a mensagem, nao deslogar.
+const ROTAS_DE_ENTRADA = ['/auth/login', '/auth/registrar']
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 })
@@ -29,6 +37,18 @@ api.interceptors.response.use(
     const normalizado = new Error(mensagem)
 
     normalizado.status = erro.response?.status ?? 0
+
+    // Token vencido no meio da sessao: sem isto as telas so mostrariam erro e
+    // o usuario ficaria preso numa aba que nao responde mais.
+    const url = erro.config?.url || ''
+    const ehRotaDeEntrada = ROTAS_DE_ENTRADA.some((rota) => url.includes(rota))
+
+    if (normalizado.status === 401 && !ehRotaDeEntrada && localStorage.getItem(CHAVE_TOKEN)) {
+      localStorage.removeItem(CHAVE_TOKEN)
+      localStorage.removeItem(CHAVE_USUARIO)
+      window.dispatchEvent(new Event(EVENTO_SESSAO_EXPIRADA))
+    }
+
     return Promise.reject(normalizado)
   }
 )

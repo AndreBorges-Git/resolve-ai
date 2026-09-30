@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 import * as servicoAuth from '../services/auth'
-import { CHAVE_TOKEN, CHAVE_USUARIO } from '../services/api'
+import { CHAVE_TOKEN, CHAVE_USUARIO, EVENTO_SESSAO_EXPIRADA } from '../services/api'
 
 const AuthContext = createContext(null)
 
@@ -64,6 +64,14 @@ export function AuthProvider({ children }) {
     // Roda so na montagem: reagir a cada troca de token relogaria o usuario recem-logado.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Qualquer 401 fora das telas de entrada derruba a sessao aqui, e o
+  // PrivateRoute leva para o login por conta propria.
+  useEffect(() => {
+    window.addEventListener(EVENTO_SESSAO_EXPIRADA, sair)
+
+    return () => window.removeEventListener(EVENTO_SESSAO_EXPIRADA, sair)
+  }, [sair])
 
   const entrar = useCallback(
     async (credenciais) => guardar(await servicoAuth.login(credenciais)),

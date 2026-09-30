@@ -1,7 +1,7 @@
 const DomainError = require('./DomainError')
 
 class NaoAutenticadoError extends DomainError {
-  constructor(mensagem = 'Credenciais invalidas') {
+  constructor(mensagem = 'Credenciais inválidas') {
     super(mensagem)
     this.name = 'NaoAutenticadoError'
   }

@@ -1,10 +1,10 @@
 class TokenService {
   gerar(payload) {
-    throw new Error('nao implementado')
+    throw new Error('não implementado')
   }
 
   verificar(token) {
-    throw new Error('nao implementado')
+    throw new Error('não implementado')
   }
 }
 

@@ -1,7 +1,7 @@
 const DomainError = require('./DomainError')
 
 class NaoEncontradoError extends DomainError {
-  constructor(mensagem = 'Recurso nao encontrado') {
+  constructor(mensagem = 'Recurso não encontrado') {
     super(mensagem)
     this.name = 'NaoEncontradoError'
   }

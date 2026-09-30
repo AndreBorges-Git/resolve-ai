@@ -1,14 +1,14 @@
 class HistoricoRepository {
   async registrar(entrada) {
-    throw new Error('nao implementado')
+    throw new Error('não implementado')
   }
 
   async listarPorOcorrencia(ocorrenciaId) {
-    throw new Error('nao implementado')
+    throw new Error('não implementado')
   }
 
   async removerPorOcorrencia(ocorrenciaId) {
-    throw new Error('nao implementado')
+    throw new Error('não implementado')
   }
 }
 

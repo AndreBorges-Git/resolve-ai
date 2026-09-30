@@ -12,7 +12,15 @@ function criarOcorrenciaRoutes(container) {
 
   router.use(auth)
 
-  router.post('/', imagemOpcional('imagem'), controller.registrar)
+  // Abrir ocorrencia e do solicitante: e ele quem vira dono do registro.
+  // O gestor conduz o que ja existe, nao abre para si mesmo.
+  router.post(
+    '/',
+    requirePerfil('solicitante'),
+    imagemOpcional('imagem'),
+    controller.registrar
+  )
+
   router.get('/', controller.listar)
   router.get('/:id', controller.obter)
 

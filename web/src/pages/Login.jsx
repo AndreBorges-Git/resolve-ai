@@ -113,7 +113,7 @@ function Login() {
         </Button>
 
         <Rodape>
-          Ainda não tem conta? <Link to="/registro">Criar conta</Link>
+          Ainda não tem conta? <Link to="/registrar">Criar conta</Link>
         </Rodape>
       </Caixa>
     </Tela>

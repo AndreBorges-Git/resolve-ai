@@ -10,8 +10,12 @@ services:
     build: ./api
     ports:
       - "3000:3000"
+    # required: false para um clone novo subir antes de existir o .env. As
+    # variaveis abaixo garantem api e banco de pe; Cloudinary e JWT_SECRET
+    # vem do .env quando o desenvolvedor preencher.
     env_file:
-      - ./api/.env
+      - path: ./api/.env
+        required: false
     environment:
       # Por padrao usa o mongo deste compose, para um clone novo subir sem
       # depender de conta na nuvem. Para apontar para o Atlas, exporte a
@@ -19,6 +23,9 @@ services:
       - MONGODB_URI=${MONGODB_URI:-mongodb://mongo:27017/resolveai}
       - PORT=3000
       - CORS_ORIGIN=http://localhost:5173
+      # Segredo de desenvolvimento, so para o compose subir sem configuracao
+      # nenhuma. Em producao ele vem das App Settings do Web App, nunca daqui.
+      - JWT_SECRET=${JWT_SECRET:-segredo-de-desenvolvimento-nao-use-em-producao}
     depends_on:
       - mongo
 

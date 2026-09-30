@@ -29,7 +29,7 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/registro" element={<Registro />} />
+            <Route path="/registrar" element={<Registro />} />
 
             <Route
               element={

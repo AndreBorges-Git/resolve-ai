@@ -17,10 +17,10 @@ jobs:
           node-version: '22'
       - run: npm install
         working-directory: api
+      # A suite roda sem banco e sem rede: nao ha MONGODB_URI aqui de proposito.
       - run: npm test
         working-directory: api
         env:
-          MONGODB_URI: ${{ secrets.MONGODB_URI_TEST }}
           JWT_SECRET: ci-secret
           PORT: 3000
 
@@ -37,4 +37,4 @@ jobs:
       - run: npm run build
         working-directory: web
         env:
-          VITE_API_URL: https://placeholder.onrender.com/api
+          VITE_API_URL: https://resolve-ai-api.azurewebsites.net/api

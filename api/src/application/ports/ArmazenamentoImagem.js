@@ -3,11 +3,11 @@
 class ArmazenamentoImagem {
   // Recebe { buffer, mimetype, originalname } e devolve a URL publica.
   async enviar(arquivo) {
-    throw new Error('nao implementado')
+    throw new Error('não implementado')
   }
 
   async remover(identificador) {
-    throw new Error('nao implementado')
+    throw new Error('não implementado')
   }
 }
 

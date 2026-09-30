@@ -11,14 +11,19 @@ const STATUS_POR_ERRO = {
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
   const status = STATUS_POR_ERRO[err.name] || err.status || 500
-  const emProducao = process.env.NODE_ENV === 'production'
 
-  if (status === 500 && !emProducao) {
-    console.error(err)
+  // Erro inesperado sempre vai para o log, inclusive em producao: e justamente
+  // la que nao da para reproduzir. O que muda em producao e a resposta ao
+  // cliente, que fica genérica para nao vazar stack nem detalhe interno.
+  if (status === 500) {
+    console.error(`[500] ${req.method} ${req.originalUrl}`, err)
   }
 
   res.status(status).json({
-    erro: status === 500 && emProducao ? 'Erro interno do servidor' : err.message
+    erro:
+      status === 500 && process.env.NODE_ENV === 'production'
+        ? 'Erro interno do servidor'
+        : err.message
   })
 }
 
