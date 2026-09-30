@@ -10,7 +10,7 @@ segurança, manutenção — e gestores acompanham cada um até a resolução, c
 ## Links
 
 - **Repositório:** https://github.com/AndreBorges-Git/resolve-ai
-- **Aplicação (front):** _a publicar_
+- **Aplicação (front):** https://resolve-ai-web.azurewebsites.net
 - **API:** https://resolve-ai-api.azurewebsites.net/api
 - **Arquitetura:** [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md)
 

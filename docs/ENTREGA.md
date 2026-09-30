@@ -11,7 +11,7 @@ roteiro do pitch e as dívidas declaradas.
 | O quê | Link |
 |---|---|
 | Repositório | https://github.com/AndreBorges-Git/resolve-ai |
-| Aplicação (front) | _a publicar_ |
+| Aplicação (front) | https://resolve-ai-web.azurewebsites.net |
 | API | https://resolve-ai-api.azurewebsites.net/api |
 | Vídeo do MVP | _a publicar_ |
 | Vídeo do pitch | _a publicar_ |
@@ -75,10 +75,20 @@ caçar no código.
 | Documentação | `README.md`, `docs/`, um `README.md` por camada da API | ✅ |
 | Fluxograma | `docs/FLUXOGRAMA.md` — os quatro recortes que o enunciado nomeia, em Mermaid | ✅ |
 
-**Pendência única:** o deploy em nuvem. MongoDB Atlas e Cloudinary já estão
-ligados e verificados — o banco de demonstração roda no Atlas e o upload de
-imagem devolve URL pública do Cloudinary. Falta a assinatura Azure; o pipeline
-(`azure-pipelines.yml`) e o `Dockerfile` de produção já estão versionados.
+**Infraestrutura, toda verificada:** front e API rodam como dois Web Apps for
+Containers no mesmo plano `plan-resolveai` (Azure for Students), a partir de
+imagens no Azure Container Registry `acrresolveai`. O banco é MongoDB Atlas e o
+upload de imagem devolve URL pública do Cloudinary. O `CORS_ORIGIN` da API está
+restrito ao domínio do front.
+
+A região é `northcentralus` por imposição da assinatura: a política do Azure for
+Students recusa as demais, e o Static Web Apps — primeira opção para o front —
+não existe em nenhuma região liberada. Daí o front ser servido por nginx em
+container, com `web/Dockerfile.prod` e fallback de SPA para o React Router.
+
+**Pendência:** a esteira. O `azure-pipelines.yml` está versionado, mas
+organizações novas do Azure DevOps nascem com zero trabalhos paralelos e a
+concessão gratuita leva dias para sair.
 
 ---
 
