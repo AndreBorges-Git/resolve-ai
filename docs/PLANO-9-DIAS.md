@@ -117,22 +117,26 @@ Em qualquer dos dois, o Azure Boards pode ser usado para as tarefas — é gratu
 
 ## 4. Checklist das 18 capacidades
 
+Fechado. A evidência de cada linha — rota, caso de uso e tela — está na tabela da
+seção 1 de [`ENTREGA.md`](ENTREGA.md).
+
 **Solicitante**
 
-- [ ] Criar uma conta · [ ] Autenticar-se · [ ] Registrar uma ocorrência
-- [ ] Informar título, descrição e categoria · [ ] Informar localização · [ ] Anexar uma imagem
-- [ ] Acompanhar o andamento · [ ] Adicionar comentários · [ ] Consultar o histórico · [ ] Avaliar a resolução
+- [x] Criar uma conta · [x] Autenticar-se · [x] Registrar uma ocorrência
+- [x] Informar título, descrição e categoria · [x] Informar localização · [x] Anexar uma imagem
+- [x] Acompanhar o andamento · [x] Adicionar comentários · [x] Consultar o histórico · [x] Avaliar a resolução
 
 **Gestor**
 
-- [ ] Visualizar todas · [ ] Filtrar por categoria, status e prioridade · [ ] Alterar prioridade
-- [ ] Atribuir responsável · [ ] Atualizar status · [ ] Adicionar comentários
-- [ ] Registrar a solução aplicada · [ ] Dashboard de indicadores
+- [x] Visualizar todas · [x] Filtrar por categoria, status e prioridade · [x] Alterar prioridade
+- [x] Atribuir responsável · [x] Atualizar status · [x] Adicionar comentários
+- [x] Registrar a solução aplicada · [x] Dashboard de indicadores
 
 **Camadas exigidas**
 
-- [ ] Arquitetura de software documentada e justificada · [ ] Backend · [ ] APIs · [ ] Banco
-- [ ] Frontend · [ ] Testes · [ ] Docker · [ ] Deploy em Cloud · [ ] Documentação
+- [x] Arquitetura de software documentada e justificada · [x] Backend · [x] APIs · [x] Banco
+- [x] Frontend · [x] Testes · [x] Docker · [x] Deploy em Cloud · [x] Documentação
+- [x] Fluxograma — a décima linha do enunciado, que esta lista não trazia (ver `DESAFIO-RESOLVE-AI.md`)
 
 ---
 

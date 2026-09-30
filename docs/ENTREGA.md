@@ -69,7 +69,7 @@ caçar no código.
 | APIs | REST documentada no `README.md` e na coleção Postman | ✅ |
 | Banco | MongoDB + Mongoose, quatro coleções | ✅ |
 | Frontend | React 19 + Vite + styled-components | ✅ |
-| Testes | 96 testes em 14 suítes, `npm test` — rodam sem banco e sem rede | ✅ |
+| Testes | 146 testes em 20 suítes, `npm test` — rodam sem banco e sem rede | ✅ |
 | Docker | `docker-compose.yml` sobe mongo, api e web | ✅ |
 | Deploy em Cloud | Azure Web App for Containers + ACR — API publicada e testada | ✅ |
 | CI/CD | `azure-pipelines.yml` — três estágios, execução verde no Azure DevOps | ✅ |
@@ -81,6 +81,14 @@ Containers no mesmo plano `plan-resolveai` (Azure for Students), a partir de
 imagens no Azure Container Registry `acrresolveai`. O banco é MongoDB Atlas e o
 upload de imagem devolve URL pública do Cloudinary. O `CORS_ORIGIN` da API está
 restrito ao domínio do front.
+
+**Defesas de borda.** A API responde com os cabeçalhos do `helmet` — sem
+`X-Powered-By`, com `nosniff` e `SAMEORIGIN` — e a política de recurso vai de
+`cross-origin` de propósito, porque o front está em outro domínio. O `/auth/login`
+tem limite de dez tentativas por quinze minutos, contando **só as que falham**:
+força bruta é o ataque óbvio contra esta API, e quem acerta a senha não gasta
+cota, então uso legítimo nunca se tranca. Atrás do proxy do Web App o limite
+depende de `trust proxy`, senão todo mundo cairia no mesmo balde, o do balanceador.
 
 A região é `northcentralus` por imposição da assinatura: a política do Azure for
 Students recusa as demais, e o Static Web Apps — primeira opção para o front —
@@ -146,4 +154,9 @@ projeto incompleto:
 - busca textual por título e descrição;
 - exportação de relatórios;
 - testes end-to-end;
-- observabilidade (log estruturado, métricas, rastreio distribuído).
+- observabilidade (log estruturado, métricas, rastreio distribuído);
+- cobertura dos repositórios Mongoose e de `infrastructure/config` — exercitá-los
+  exigiria um banco de verdade, e a regra de a suíte rodar sem banco e sem rede
+  vale mais que o número da cobertura. O que dá para verificar sem conexão está
+  verificado: schemas validados em memória e os `enum` do Mongo conferidos contra
+  as constantes do domínio.

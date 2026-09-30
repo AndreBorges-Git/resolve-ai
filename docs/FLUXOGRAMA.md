@@ -176,7 +176,8 @@ flowchart TD
 
 | Rota | Quem passa |
 |---|---|
-| `POST /ocorrencias` · `GET /ocorrencias` · `GET /ocorrencias/:id` | autenticado — com recorte de posse para o solicitante |
+| `POST /ocorrencias` | **só solicitante** — é ele quem vira dono do registro |
+| `GET /ocorrencias` · `GET /ocorrencias/:id` | autenticado — com recorte de posse para o solicitante |
 | `GET /ocorrencias/:id/historico` · `POST · GET /ocorrencias/:id/comentarios` | idem |
 | `PATCH /ocorrencias/:id/status` · `/prioridade` · `/responsavel` · `/solucao` | **só gestor** |
 | `POST /ocorrencias/:id/avaliacao` | **só solicitante**, e só o dono |

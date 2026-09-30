@@ -70,6 +70,7 @@ Transição fora dessas setas responde **409**.
 | Backend | Node.js 22 + Express 5 (CommonJS) |
 | Banco | MongoDB + Mongoose |
 | Autenticação | JWT + bcryptjs |
+| Segurança HTTP | helmet + express-rate-limit no login |
 | Frontend | React 19 + Vite + React Router + styled-components |
 | Gráficos | Recharts |
 | Imagens | Cloudinary |
@@ -111,12 +112,23 @@ Diagramas, modelo de dados e a justificativa de monolito × microsserviços em
 ### Com Docker (recomendado)
 
 ```bash
-cp api/.env.example api/.env    # preencher JWT_SECRET e as chaves do Cloudinary
-cp web/.env.example web/.env
 docker compose up --build
 ```
 
 Front em http://localhost:5173 · API em http://localhost:3000/api
+
+Um clone novo sobe assim, sem configurar nada: o compose traz o próprio Mongo e um
+`JWT_SECRET` de desenvolvimento. Para o upload de imagem funcionar, aí sim
+precisa das chaves do Cloudinary:
+
+```bash
+cp api/.env.example api/.env    # preencher as chaves do Cloudinary
+cp web/.env.example web/.env
+```
+
+O `api/.env` entra como `env_file` opcional — se não existir, o compose sobe
+igual. Em produção o `JWT_SECRET` vem das App Settings do Web App, nunca do
+compose.
 
 O compose sobe Mongo, API e front. Ele **não monta volumes de código**: a imagem
 que roda localmente é a mesma que vai para a nuvem, então mudanças no código
@@ -170,13 +182,19 @@ vazias.
 ## Testes
 
 ```bash
-cd api && npm test          # 96 testes
+cd api && npm test          # 146 testes
 cd api && npm run test:cov  # com cobertura
 ```
 
 A suíte inteira roda **sem banco e sem rede**: os testes de caso de uso usam
 repositórios falsos em memória e os de HTTP sobem o mesmo Express com um
 container de falsos, via `criarApp(container)`.
+
+Essa escolha tem um preço declarado: `infrastructure/database/mongoose/repositories`
+e `infrastructure/config` ficam praticamente sem cobertura, porque exercitá-los
+exigiria um Mongo de verdade. O que dá para verificar sem conexão está coberto —
+os schemas são validados em memória, e um teste garante que os `enum` do Mongo
+são exatamente os do domínio, que é onde uma divergência doeria.
 
 ## API
 
@@ -194,7 +212,7 @@ Todas as rotas sob `/api`. Autenticação por `Authorization: Bearer <token>`.
 
 | Método | Rota | Quem | O quê |
 |---|---|---|---|
-| `POST` | `/ocorrencias` | autenticado | registra (aceita `multipart/form-data` com `imagem`) |
+| `POST` | `/ocorrencias` | solicitante | registra (aceita `multipart/form-data` com `imagem`) |
 | `GET` | `/ocorrencias` | autenticado | lista com filtros `categoria`, `status`, `prioridade`, `page`, `limit` |
 | `GET` | `/ocorrencias/:id` | autenticado | detalhe com histórico e comentários |
 | `PATCH` | `/ocorrencias/:id/status` | gestor | move o status e **grava a auditoria** |

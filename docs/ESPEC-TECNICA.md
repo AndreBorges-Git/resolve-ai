@@ -194,7 +194,9 @@ Base `/api`. Tudo exceto `registrar` e `login` exige `Authorization: Bearer <tok
 | GET | `/dashboard` | gestor | `{porStatus, porCategoria, porPrioridade, tempoMedioResolucaoHoras, avaliacaoMedia, total}` |
 | GET | `/usuarios?perfil=gestor` | gestor | popula o seletor de responsável |
 
-**Erros:** `400` validação · `401` token ausente ou inválido · `403` perfil sem permissão · `404` não encontrado · `409` transição inválida ou avaliação fora de hora.
+**Erros:** `400` validação · `401` token ausente ou inválido · `403` perfil sem permissão · `404` não encontrado · `409` transição inválida ou avaliação fora de hora · `429` tentativas de login em excesso.
+
+**Proteções de borda:** `helmet` em toda a API, com `crossOriginResourcePolicy` em `cross-origin` porque o front roda em outro domínio, e limite de dez tentativas por quinze minutos no `/auth/login`, contando só as que falham — acerto de senha não consome cota.
 
 ---
 
@@ -225,6 +227,15 @@ A **timeline do histórico** é o que prova visualmente a auditabilidade — é 
 | `http/ocorrencia.test.js` | integração | criar → 201 e `aberta` · criar grava histórico · solicitante não vê a dos outros · filtro por status |
 
 Os dois primeiros rodam sem banco — é o retorno prático da Clean Architecture, e é o que mantém o pipeline rápido.
+
+Essa tabela é o mínimo planejado. A suíte entregue tem **146 testes em 20 suítes**, e cresceu em quatro frentes além dela:
+
+- `usecases/` — um arquivo por caso de uso, todos com repositórios falsos;
+- `http/` — `health`, `status`, `gestao` e `seguranca` (cabeçalhos do helmet, o 429 do login e o recorte de perfil do `POST /ocorrencias`);
+- `interfaces/errorHandler.test.js` — o mapa erro → código HTTP, incluindo a resposta genérica de 500 em produção com log preservado;
+- `infrastructure/` — hasher, token, Cloudinary com a lib mockada, schemas validados em memória e a montagem do container.
+
+A regra de não usar banco nem rede vale para todas: `infrastructure/database/.../repositories` e `infrastructure/config` ficam de fora da cobertura por isso, e é uma dívida declarada em `ENTREGA.md`, não um esquecimento. O `arquitetura.test.js` guarda a regra de dependência e testa o próprio leitor de importações, para não virar um guarda que só entende aspas simples.
 
 ---
 

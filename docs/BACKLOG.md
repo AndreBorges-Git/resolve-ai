@@ -280,10 +280,40 @@ Se o tempo apertar, corte os graficos Recharts e deixe so os cartoes numericos.
 
 ---
 
+## Pente-fino — terça 30/09
+
+Varredura do projeto inteiro, com cada afirmação verificada rodando algo, não
+declarada. O que foi corrigido:
+
+- **`POST /ocorrencias` aceitava gestor.** A especificação sempre disse
+  `solicitante`; a rota não tinha `requirePerfil`. Corrigido e coberto por teste.
+- **500 em produção não ia para o log.** O `errorHandler` só logava fora de
+  produção — justo o ambiente onde não dá para reproduzir. Agora sempre loga, com
+  método e URL, e a resposta ao cliente segue genérica.
+- **O guarda de arquitetura só entendia aspas simples.** `require("mongoose")` no
+  domínio passaria por ele, e `mongoose/lib/algo` também. O leitor agora entende
+  as três formas de citar o módulo e o `import` ESM, resolve o pacote raiz, e tem
+  um teste do próprio leitor.
+- **Sessão vencida deixava a aba travada.** Um 401 fora das telas de entrada
+  derruba a sessão por evento, sem sair do React Router.
+- **`/registro` no front × `/registrar` na especificação.** O front cedeu.
+- **helmet e limite de dez tentativas no `/auth/login`**, contando só as que
+  falham — quem acerta a senha não perde cota e não se tranca no meio da gravação.
+- **`docker compose up` num clone novo** agora sobe sem configurar nada:
+  `env_file` opcional e `JWT_SECRET` de desenvolvimento.
+- **Acentos** varridos em todos os literais de `api/src`, não só nos que apareceram
+  na tela.
+
+A suíte saiu de 96 testes em 14 suítes para **146 em 20**, com
+`infrastructure/security`, `infrastructure/storage`, os schemas e `main/` em 100%.
+
+---
+
 ## Dívidas conhecidas (declarar no relatório, em Próximos Passos)
 
 Notificação por e-mail · anexar mais de uma imagem · histórico de alteração de
 prioridade e responsável (hoje só o de status é auditado) · busca textual ·
-exportação de relatórios · testes end-to-end · observabilidade.
+exportação de relatórios · testes end-to-end · observabilidade · cobertura dos
+repositórios Mongoose e de `infrastructure/config`, que exigiria banco de verdade.
 
 Declarar limitação conhecida é sinal de maturidade técnica, não de projeto incompleto.

@@ -33,7 +33,7 @@ A solução deverá contemplar:
 | 3 | APIs | ✅ REST · `README.md` e coleção Postman |
 | 4 | Banco de dados | ✅ MongoDB Atlas + Mongoose |
 | 5 | Frontend | ✅ React 19 + Vite + styled-components |
-| 6 | Testes | ✅ 96 testes em 14 suítes, sem banco e sem rede |
+| 6 | Testes | ✅ 146 testes em 20 suítes, sem banco e sem rede |
 | 7 | **Docker** | ✅ `docker-compose.yml` e imagens de produção das duas pontas |
 | 8 | **Deploy em Cloud** | ✅ front e API como Web Apps for Containers no Azure |
 | 9 | Documentação | ✅ `README.md`, `docs/`, um `README.md` por camada |

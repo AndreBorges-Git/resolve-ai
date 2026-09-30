@@ -98,8 +98,15 @@ class AlterarStatusOcorrencia {
 
 `main/app.js` é uma função `criarApp(container)`. É isso que permite os testes de
 HTTP com Supertest rodarem **sem banco nenhum**: o mesmo Express sobe com um
-container de falsos em memória. Os 96 testes da suíte rodam em segundos, sem
+container de falsos em memória. Os 146 testes da suíte rodam em segundos, sem
 Docker e sem rede.
+
+É também em `app.js` que ficam as proteções que valem para a API inteira, e não
+para uma rota: `helmet`, o CORS e o limite de tentativas no `/auth/login`. Elas
+não são regra de negócio nem tradução de HTTP de um caso de uso — são política de
+montagem do servidor, e por isso ficam em `main/`, junto de quem monta. O
+parâmetro `limiteLogin` de `criarApp` existe para o teste poder estourar o limite
+em três tentativas em vez de dez.
 
 ---
 
@@ -190,6 +197,12 @@ um dos dois falha com **409**.
 | `NaoAutorizadoError` | 403 |
 | `NaoEncontradoError` | 404 |
 | `TransicaoInvalidaError` | 409 |
+
+Qualquer outro erro cai em **500**. Nesse caso o `errorHandler` sempre escreve no
+log — com método e URL —, porque produção é justamente onde não dá para
+reproduzir; o que muda em produção é só a resposta ao cliente, que vira
+`Erro interno do servidor` para não vazar stack. O `429` do limite de login não
+passa por aqui: quem responde é o próprio middleware, antes das rotas.
 
 O domínio não sabe o que é HTTP — ele lança `TransicaoInvalidaError`. Quem conhece
 o número 409 é a camada de interface. Um cliente CLI ou uma fila reusaria os
