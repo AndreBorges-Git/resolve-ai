@@ -72,6 +72,7 @@ caçar no código.
 | Testes | 96 testes em 14 suítes, `npm test` — rodam sem banco e sem rede | ✅ |
 | Docker | `docker-compose.yml` sobe mongo, api e web | ✅ |
 | Deploy em Cloud | Azure Web App for Containers + ACR — API publicada e testada | ✅ |
+| CI/CD | `azure-pipelines.yml` — três estágios, execução verde no Azure DevOps | ✅ |
 | Documentação | `README.md`, `docs/`, um `README.md` por camada da API | ✅ |
 | Fluxograma | `docs/FLUXOGRAMA.md` — os quatro recortes que o enunciado nomeia, em Mermaid | ✅ |
 
@@ -86,9 +87,14 @@ Students recusa as demais, e o Static Web Apps — primeira opção para o front
 não existe em nenhuma região liberada. Daí o front ser servido por nginx em
 container, com `web/Dockerfile.prod` e fallback de SPA para o React Router.
 
-**Pendência:** a esteira. O `azure-pipelines.yml` está versionado, mas
-organizações novas do Azure DevOps nascem com zero trabalhos paralelos e a
-concessão gratuita leva dias para sair.
+**Esteira rodando.** `azure-pipelines.yml` em três estágios na organização
+`dev.azure.com/RM365669`, projeto `resolve-ai`: testes → build e push das duas
+imagens no ACR → deploy nos dois Web Apps. A execução nº 2 fechou verde e os
+Web Apps passaram a servir as imagens `:2`, marcadas com o número da execução —
+é assim que se confere que quem publicou foi a esteira, e não um push manual.
+
+O código está espelhado no Azure Repos porque ligar o pipeline ao GitHub exigiria
+autorização OAuth; o GitHub segue como repositório oficial da entrega.
 
 ---
 
