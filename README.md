@@ -11,7 +11,7 @@ segurança, manutenção — e gestores acompanham cada um até a resolução, c
 
 - **Repositório:** https://github.com/AndreBorges-Git/resolve-ai
 - **Aplicação (front):** _a publicar_
-- **API:** _a publicar_
+- **API:** https://resolve-ai-api.azurewebsites.net/api
 - **Arquitetura:** [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md)
 
 ## Credenciais de demonstração
@@ -231,6 +231,7 @@ Coleção Postman em [`docs/postman/`](docs/postman/).
 |---|---|
 | [`docs/ENTREGA.md`](docs/ENTREGA.md) | links da entrega, checklist das 18 capacidades, roteiro do pitch, dívidas |
 | [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md) | camadas, máquina de estados, modelo de dados, deploy, monolito × microsserviços |
+| [`docs/FLUXOGRAMA.md`](docs/FLUXOGRAMA.md) | fluxo geral, perfis e responsabilidades, ciclo de vida, perfis de usuário |
 | [`docs/ESPEC-TECNICA.md`](docs/ESPEC-TECNICA.md) | contrato de implementação |
 | [`docs/DESAFIO-RESOLVE-AI.md`](docs/DESAFIO-RESOLVE-AI.md) | requisitos oficiais do hackathon |
 | [`docs/PLANO-9-DIAS.md`](docs/PLANO-9-DIAS.md) | cronograma e decisões |

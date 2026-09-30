@@ -12,7 +12,7 @@ roteiro do pitch e as dívidas declaradas.
 |---|---|
 | Repositório | https://github.com/AndreBorges-Git/resolve-ai |
 | Aplicação (front) | _a publicar_ |
-| API | _a publicar_ |
+| API | https://resolve-ai-api.azurewebsites.net/api |
 | Vídeo do MVP | _a publicar_ |
 | Vídeo do pitch | _a publicar_ |
 | Pasta pública no Drive | _a publicar_ |
@@ -71,8 +71,9 @@ caçar no código.
 | Frontend | React 19 + Vite + styled-components | ✅ |
 | Testes | 96 testes em 14 suítes, `npm test` — rodam sem banco e sem rede | ✅ |
 | Docker | `docker-compose.yml` sobe mongo, api e web | ✅ |
-| Deploy em Cloud | Azure Web App for Containers + ACR — **pendente das credenciais** | ⏳ |
+| Deploy em Cloud | Azure Web App for Containers + ACR — API publicada e testada | ✅ |
 | Documentação | `README.md`, `docs/`, um `README.md` por camada da API | ✅ |
+| Fluxograma | `docs/FLUXOGRAMA.md` — os quatro recortes que o enunciado nomeia, em Mermaid | ✅ |
 
 **Pendência única:** o deploy em nuvem. MongoDB Atlas e Cloudinary já estão
 ligados e verificados — o banco de demonstração roda no Atlas e o upload de
