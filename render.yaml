@@ -1,0 +1,34 @@
+# Blueprint do Render para a API.
+#
+# O front nao entra aqui: e estatico (Vite) e vai para a Vercel, com o
+# `web/vercel.json` ao lado. O banco tambem nao: e o MongoDB Atlas, que ja
+# existe fora do Render.
+#
+# `sync: false` significa "o valor e secreto, preencha no painel" — o Render
+# pede cada um na primeira publicacao e nunca versiona o valor aqui.
+services:
+  - type: web
+    name: resolve-ai-api
+    runtime: docker
+    dockerfilePath: ./api/Dockerfile
+    dockerContext: ./api
+    plan: free
+    region: oregon
+    healthCheckPath: /api/health
+    envVars:
+      # Sem valor no arquivo: o Render pergunta na publicacao.
+      - key: MONGODB_URI
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      # A origem do front na Vercel. So da para preencher depois que a Vercel
+      # publicar e devolver o dominio.
+      - key: CORS_ORIGIN
+        sync: false
+      # Gerado pelo Render: nao precisa reaproveitar o segredo local.
+      - key: JWT_SECRET
+        generateValue: true

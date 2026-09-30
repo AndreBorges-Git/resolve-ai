@@ -6,7 +6,11 @@
 
 ## ⚠️ Correção de rota
 
-O enunciado é **"Resolve Aí — Plataforma de Gestão de Ocorrências"**. O tema "auxílio aos professores e professoras do ensino público", sobre o qual `PLANO-HACKATON.md`, `PLANO-HACKATON-V2.md` e `PIVO-AGENTES.md` foram escritos, **não aparece em lugar nenhum do documento**.
+O enunciado é **"Resolve Aí — Plataforma de Gestão de Ocorrências"**.
+
+**A FIAP trocou o enunciado.** Até meados de agosto o Hackathon tinha outro tema — uma solução para professores da rede pública — e foi sobre ele que `PLANO-HACKATON.md`, `PLANO-HACKATON-V2.md` e `PIVO-AGENTES.md` foram escritos, corretamente para a época. Os metadados deste PDF mostram criação em **20/08/2026** (autor Humberto Delgado de Sousa; assunto interno "Fase 2 - Trilha DevSecOps - 2SGO", ou seja, enunciado reaproveitado de outra trilha). A troca passou despercebida até 20/09. **Aqueles planos são arquivo morto, mas não foram erro de planejamento.**
+
+Como o documento veio adaptado de outra trilha, ele **não traz instruções de entrega** — nada sobre vídeo, relatório ou critérios de avaliação.
 
 Consequência: o produto Aula+, o pivô do JobAgent, o seed da BNCC, o prompt de geração de plano de aula e os dados da TALIS estão fora. A pasta `aula-mais/` e os três planos viram arquivo morto.
 
