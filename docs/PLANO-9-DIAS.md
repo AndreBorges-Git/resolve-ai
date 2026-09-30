@@ -62,7 +62,16 @@ Depois de 26/09 à noite, nenhuma funcionalidade nova entra.
 
 👉 `azure.microsoft.com/free/students`
 
-**Ao mesmo tempo, crie a organização no Azure DevOps** (`dev.azure.com`, gratuita e independente da assinatura) e **solicite imediatamente a concessão do job paralelo gratuito**. Organizações novas precisam pedir, e a liberação leva alguns dias úteis. Hoje é domingo — pedindo agora, entra na fila de segunda.
+**Ao mesmo tempo, crie a organização no Azure DevOps** (`dev.azure.com`, gratuita e independente da assinatura).
+
+> ✅ **Verificado em 29/09/2026.** Este plano dizia que seria preciso solicitar a
+> concessão do job paralelo e esperar dias úteis. **Não foi.** A conta já tinha
+> o job gratuito liberado — 1 job, 1.800 min/mês — em Organization settings →
+> Parallel jobs. Confira o número antes de preencher qualquer formulário.
+
+> ✅ **Decidido: Caminho A (Azure).** A assinatura for Students foi ativada e
+> tudo roda no Azure — front, API, registro de imagens e esteira. O Caminho B
+> (Render + Vercel) fica registrado abaixo como alternativa que não foi usada.
 
 ### Ponto de decisão: hoje, 22h
 
@@ -80,7 +89,10 @@ Em qualquer dos dois, o Azure Boards pode ser usado para as tarefas — é gratu
 3. **Build e push** da imagem da API para o ACR.
 4. **Web App for Containers** (Aula 8), plano **B1 Linux**, apontando para a imagem no ACR. Habilitar *continuous deployment*.
 5. **Application Settings** do Web App: `MONGODB_URI`, `JWT_SECRET`, `CLOUDINARY_*`, `CORS_ORIGIN`, `PORT=3000` — nunca no repositório.
-6. **Front:** Static Web App, ou Vercel se quiser poupar tempo (é defensável: o front é estático).
+6. **Front:** Web App for Containers com nginx, no mesmo plano da API.
+   > ⚠️ **Static Web App não funciona no Azure for Students.** A política da
+   > assinatura só libera `northcentralus`, e o serviço não existe nessa região —
+   > as cinco em que ele existe estão todas bloqueadas. Daí o front ir em container.
 7. **Azure Pipelines multi-stage** (Aulas 3 e 4): `build → test → push ACR → deploy Web App`.
 8. Ao terminar a entrega, **pare o Web App** para não queimar crédito.
 

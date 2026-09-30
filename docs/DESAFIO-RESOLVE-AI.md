@@ -28,16 +28,16 @@ A solução deverá contemplar:
 
 | # | Item exigido | Situação |
 |---|---|---|
-| 1 | Arquitetura de software | ⬜ |
-| 2 | Backend | ⬜ |
-| 3 | APIs | ⬜ |
-| 4 | Banco de dados | ⬜ |
-| 5 | Frontend | ⬜ |
-| 6 | Testes | ⬜ |
-| 7 | **Docker** | ⬜ obrigatório, não opcional |
-| 8 | **Deploy em Cloud** | ⬜ obrigatório — não basta rodar local |
-| 9 | Documentação | ⬜ |
-| 10 | **Fluxograma** | ⬜ — perfis e responsabilidades · ciclo de vida da ocorrência · fluxo geral · perfis de usuário |
+| 1 | Arquitetura de software | ✅ Clean Architecture · `docs/ARQUITETURA.md` |
+| 2 | Backend | ✅ Node 22 + Express, quatro camadas |
+| 3 | APIs | ✅ REST · `README.md` e coleção Postman |
+| 4 | Banco de dados | ✅ MongoDB Atlas + Mongoose |
+| 5 | Frontend | ✅ React 19 + Vite + styled-components |
+| 6 | Testes | ✅ 96 testes em 14 suítes, sem banco e sem rede |
+| 7 | **Docker** | ✅ `docker-compose.yml` e imagens de produção das duas pontas |
+| 8 | **Deploy em Cloud** | ✅ front e API como Web Apps for Containers no Azure |
+| 9 | Documentação | ✅ `README.md`, `docs/`, um `README.md` por camada |
+| 10 | **Fluxograma** | ✅ `docs/FLUXOGRAMA.md` — os quatro recortes exigidos, em Mermaid |
 
 > ⚠️ **Correção (29/09/2026).** A lista acima tinha nove linhas. O PDF traz **dez**:
 > o `Fluxograma` não foi transcrito. Ele não é um diagrama
@@ -149,7 +149,7 @@ O enunciado grifa: "cada transição de status deve ser auditável". *Interpreta
 
 | Novo | Por quê | Caminho mais barato |
 |---|---|---|
-| **Deploy em Cloud** | requisito explícito; nas fases anteriores tudo rodava local | API em Render ou Railway (free), front na Vercel, banco no MongoDB Atlas que você já usa. Fazer isso na **primeira semana**, não na última — deploy que só é testado no fim sempre quebra |
+| **Deploy em Cloud** | requisito explícito; nas fases anteriores tudo rodava local | **Resolvido no Azure:** front e API como Web Apps for Containers, imagens no ACR, banco no MongoDB Atlas. Render e Vercel eram o plano alternativo e não foram usados |
 | **Upload de imagem** | Solicitante precisa anexar imagem | Cloudinary free tier via `multer` + upload direto. **Não** salvar em disco: o disco de um host cloud é efêmero e a imagem some |
 | **Dashboard de indicadores** | exigência do Gestor | agregação no Mongo (contagem por status, por categoria, tempo médio de resolução) + Recharts no front. 4 números e 2 gráficos bastam |
 | **Autorização por perfil** | duas experiências distintas na mesma app | middleware `requirePerfil('gestor')` nas rotas de gestão |

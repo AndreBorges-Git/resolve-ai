@@ -12,14 +12,14 @@ Não cole dois dias de uma vez — o agente perde o fio e você perde o controle
 
 ### Fora do Claude Code (você faz)
 
-- [ ] **Azure for Students** em `azure.microsoft.com/free/students` com o e-mail `rm365669@fiap.com.br`
-- [ ] **Azure DevOps** em `dev.azure.com`: criar organização e projeto `resolve-ai`
-- [ ] **Solicitar a concessão do job paralelo gratuito** — leva dias úteis, pedir hoje
-- [ ] **MongoDB Atlas**: cluster M0, usuário/senha, Network Access `0.0.0.0/0`, copiar a connection string
-- [ ] **Cloudinary**: conta free, copiar Cloud Name, API Key e API Secret
-- [ ] **GitHub**: criar o repositório e dar push do que já existe
-- [ ] **22h — ponto de decisão de nuvem:** Azure ativo? Caminho A. Senão, Caminho B (Render + Vercel)
-- [ ] Publicar API e front na nuvem escolhida, com `/health` respondendo
+- [x] **Azure for Students** em `azure.microsoft.com/free/students` com o e-mail `rm365669@fiap.com.br`
+- [x] **Azure DevOps** em `dev.azure.com`: criar organização e projeto `resolve-ai`
+- [x] ~~**Solicitar a concessão do job paralelo gratuito**~~ — desnecessário: a conta já tinha o job liberado
+- [x] **MongoDB Atlas**: cluster M0, usuário/senha, Network Access `0.0.0.0/0`, copiar a connection string
+- [x] **Cloudinary**: conta free, copiar Cloud Name, API Key e API Secret
+- [x] **GitHub**: criar o repositório e dar push do que já existe
+- [x] **22h — ponto de decisão de nuvem:** Azure ativo → **Caminho A**
+- [x] Publicar API e front na nuvem escolhida, com `/health` respondendo
 
 ### No Claude Code
 
@@ -254,7 +254,7 @@ Se o tempo apertar, corte os graficos Recharts e deixe so os cartoes numericos.
    Script idempotente: limpa as colecoes antes.
 
 2. README.md: preencher URLs de producao, stack, arquitetura, como rodar, como testar,
-   credenciais de demonstracao. Se a API estiver no Render, avisar sobre a hibernacao.
+   credenciais de demonstracao.
 
 3. docs/ARQUITETURA.md: completar os diagramas Mermaid (camadas da Clean Architecture,
    maquina de estados, modelo de dados, topologia de deploy) e escrever a
@@ -274,8 +274,8 @@ Se o tempo apertar, corte os graficos Recharts e deixe so os cartoes numericos.
 - [x] Roteiro do pitch: problema, solução, demonstração curta, arquitetura, próximos passos — `docs/ENTREGA.md`, seção 3
 - [ ] Gravar o vídeo do pitch
 - [ ] Subir os dois vídeos no Drive, pasta pública
-- [x] Documento de submissão com os links: Drive, repositório, aplicação, API — `docs/ENTREGA.md`, seção 1 (faltam as URLs)
-- [x] Revisar o checklist das 18 capacidades da seção 4 do plano — `docs/ENTREGA.md`, seção 2: 17 de 18 prontas, só o deploy em nuvem pendente
+- [x] Documento de submissão com os links — `docs/ENTREGA.md`, seção 1 (faltam os dois vídeos e a pasta do Drive)
+- [x] Revisar o checklist das 18 capacidades — `docs/ENTREGA.md`, seção 2: **18 de 18**, deploy em nuvem incluído
 - [ ] **Submeter na plataforma** — hoje, não amanhã
 
 ---
