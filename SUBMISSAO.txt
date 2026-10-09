@@ -1,0 +1,111 @@
+RESOLVE AI — PLATAFORMA DE GESTAO DE OCORRENCIAS
+Hackathon final · Pos-graduacao FIAP Full Stack Development (6FSDT, Fase 5)
+
+Autor: Andre Borges · RM365669 · rm365669@fiap.com.br
+
+
+--------------------------------------------------------------------------
+1. LINKS DA ENTREGA
+--------------------------------------------------------------------------
+
+Repositorio (GitHub)
+  https://github.com/AndreBorges-Git/resolve-ai
+
+Aplicacao publicada (front)
+  https://resolve-ai-web.azurewebsites.net
+
+API publicada
+  https://resolve-ai-api.azurewebsites.net/api
+  Verificacao rapida: https://resolve-ai-api.azurewebsites.net/api/health
+
+Pasta publica no Google Drive (videos)
+  >>> COLAR O LINK DA PASTA AQUI <<<
+
+Video do MVP (demonstracao do sistema)
+  >>> COLAR O LINK AQUI <<<
+
+Video do pitch (5 a 7 minutos)
+  >>> COLAR O LINK AQUI <<<
+
+
+--------------------------------------------------------------------------
+2. CREDENCIAIS DE DEMONSTRACAO
+--------------------------------------------------------------------------
+
+Senha para todos os perfis: Senha123
+
+  Gestor        gestor@resolveai.com
+  Solicitante   marina@resolveai.com
+  Solicitante   joao@resolveai.com
+
+O banco de producao ja esta populado: 3 usuarios, 8 ocorrencias espalhadas
+pelos cinco status, 7 comentarios, 2 avaliacoes e 21 registros de historico.
+
+
+--------------------------------------------------------------------------
+3. O QUE OLHAR PRIMEIRO
+--------------------------------------------------------------------------
+
+O diferencial do projeto e a TRILHA DE AUDITORIA: toda mudanca de status grava
+um registro de historico na mesma operacao, com desfazimento se a segunda
+escrita falhar. Nao existe caminho no sistema que mova o status sem deixar
+rastro — nem por rota separada, nem pelo front.
+
+Para ver isso em dois minutos:
+
+  1. Entre como gestor (gestor@resolveai.com / Senha123)
+  2. Abra a ocorrencia "Poste apagado na esquina da Praca Central"
+  3. A timeline mostra as quatro transicoes, com data, autor e observacao:
+     abertura -> aberta -> em_analise -> em_atendimento -> resolvida
+
+A regra de transicao vive no dominio, em api/src/domain/entities/Ocorrencia.js:
+
+  aberta -> em_analise -> em_atendimento -> resolvida
+     +----------+---------------+--> cancelada
+
+"resolvida" e "cancelada" sao finais. Transicao fora dessas setas responde 409.
+
+
+--------------------------------------------------------------------------
+4. COMO RODAR LOCALMENTE
+--------------------------------------------------------------------------
+
+Um comando, sem configurar nada (o compose traz o proprio MongoDB):
+
+  docker compose up --build
+
+  Front .... http://localhost:5173
+  API ...... http://localhost:3000/api
+
+Para popular o banco local com os mesmos dados de demonstracao:
+
+  cd api && npm run seed
+
+Testes (rodam sem banco e sem rede):
+
+  cd api && npm test        -> 146 testes em 20 suites
+
+
+--------------------------------------------------------------------------
+5. ONDE ESTA CADA ITEM EXIGIDO
+--------------------------------------------------------------------------
+
+  Arquitetura documentada ....... docs/ARQUITETURA.md
+  Fluxograma (4 recortes) ....... docs/FLUXOGRAMA.md
+  Contrato tecnico .............. docs/ESPEC-TECNICA.md
+  Checklist das 18 capacidades .. docs/ENTREGA.md, secao 2
+  Dividas declaradas ............ docs/ENTREGA.md, secao 4
+  Colecao Postman ............... docs/postman/
+
+Backend ..... Node 22 + Express 5 (CommonJS), Clean Architecture em 4 camadas
+Banco ....... MongoDB Atlas + Mongoose
+Frontend .... React 19 + Vite + React Router + styled-components + Recharts
+Testes ...... Jest + Supertest — 146 testes em 20 suites
+Docker ...... docker-compose.yml + imagens de producao das duas pontas
+Cloud ....... Azure Web Apps for Containers + Azure Container Registry
+CI/CD ....... azure-pipelines.yml (3 estagios) e .github/workflows/ci.yml
+
+A regra de dependencia da Clean Architecture nao e so documentada: o teste
+api/tests/arquitetura.test.js falha o build se alguem fizer require de
+express, mongoose, jsonwebtoken, bcryptjs ou cloudinary dentro de domain/
+ou application/.

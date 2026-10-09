@@ -17,6 +17,10 @@ roteiro do pitch e as dívidas declaradas.
 | Vídeo do pitch | _a publicar_ |
 | Pasta pública no Drive | _a publicar_ |
 
+O arquivo enviado na plataforma é [`SUBMISSAO.txt`](../SUBMISSAO.txt), na raiz do
+repositório: a mesma lista de links em texto puro, com as credenciais de
+demonstração e o roteiro de dois minutos para a banca ver a trilha de auditoria.
+
 Credenciais de demonstração (todas com a senha `Senha123`):
 
 | Perfil | E-mail |
