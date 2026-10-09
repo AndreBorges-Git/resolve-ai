@@ -38,6 +38,7 @@ function NovaOcorrencia() {
   const [imagem, setImagem] = useState(null)
   const [previa, setPrevia] = useState(null)
   const [erro, setErro] = useState(null)
+  const [erroImagem, setErroImagem] = useState(null)
   const [enviando, setEnviando] = useState(false)
 
   // A URL da previa e um objeto do navegador: sem revoke, vaza a cada troca de arquivo.
@@ -61,18 +62,30 @@ function NovaOcorrencia() {
     const arquivo = evento.target.files?.[0] || null
 
     if (arquivo && arquivo.size > TAMANHO_MAXIMO_MB * 1024 * 1024) {
-      setErro(`Imagem maior que ${TAMANHO_MAXIMO_MB}MB`)
+      // Em estado proprio porque enviar() limpa "erro" na primeira linha: antes
+      // o aviso sumia no envio e a ocorrencia nascia sem a foto, com o usuario
+      // achando que o anexo tinha ido junto.
+      setErroImagem(`Imagem maior que ${TAMANHO_MAXIMO_MB}MB. Escolha um arquivo menor.`)
       evento.target.value = ''
       setImagem(null)
       return
     }
 
     setErro(null)
+    setErroImagem(null)
     setImagem(arquivo)
   }
 
   async function enviar(evento) {
     evento.preventDefault()
+
+    // Arquivo recusado no navegador trava o envio: registrar aqui criaria a
+    // ocorrencia sem imagem em silencio. Quem desistir do anexo usa o botao.
+    if (erroImagem) {
+      setErro(erroImagem)
+      return
+    }
+
     setErro(null)
     setEnviando(true)
 
@@ -149,6 +162,18 @@ function NovaOcorrencia() {
             accept="image/png, image/jpeg, image/webp, image/gif"
             onChange={escolherImagem}
           />
+          {erroImagem && (
+            <>
+              <Mensagem role="alert">{erroImagem}</Mensagem>
+              <Button
+                type="button"
+                $variante="secundaria"
+                onClick={() => setErroImagem(null)}
+              >
+                Seguir sem imagem
+              </Button>
+            </>
+          )}
           {previa && <Previa src={previa} alt="Prévia da imagem escolhida" />}
         </Campo>
 
