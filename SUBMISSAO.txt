@@ -21,11 +21,6 @@ API publicada
 Pasta publica no Google Drive
   https://drive.google.com/drive/folders/1wZGcm3xkuleJsK66eRL_GW_GS_oucfwA
 
-Video
-  O enunciado da Fase 5 nao pede video de demonstracao nem de pitch. Se a
-  plataforma de entrega exigir, o link entra nesta linha:
-  >>> COLAR O LINK AQUI, SE A PLATAFORMA PEDIR <<<
-
 
 --------------------------------------------------------------------------
 2. CREDENCIAIS DE DEMONSTRACAO
