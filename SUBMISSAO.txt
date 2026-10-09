@@ -21,6 +21,12 @@ API publicada
 Pasta publica no Google Drive
   https://drive.google.com/drive/folders/1wZGcm3xkuleJsK66eRL_GW_GS_oucfwA
 
+Video de demonstracao (4 min, narrado e legendado)
+  Resolve-Ai-Demo.mp4, na pasta do Google Drive acima
+  Mostra a jornada completa na plataforma: a solicitante registra a
+  ocorrencia com foto, o gestor a leva de aberta ate resolvida, a trilha
+  de auditoria cresce a cada mudanca e a solicitante avalia o atendimento.
+
 
 --------------------------------------------------------------------------
 2. CREDENCIAIS DE DEMONSTRACAO
