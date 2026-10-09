@@ -18,14 +18,13 @@ API publicada
   https://resolve-ai-api.azurewebsites.net/api
   Verificacao rapida: https://resolve-ai-api.azurewebsites.net/api/health
 
-Pasta publica no Google Drive (videos)
-  >>> COLAR O LINK DA PASTA AQUI <<<
+Pasta publica no Google Drive
+  https://drive.google.com/drive/folders/1wZGcm3xkuleJsK66eRL_GW_GS_oucfwA
 
-Video do MVP (demonstracao do sistema)
-  >>> COLAR O LINK AQUI <<<
-
-Video do pitch (5 a 7 minutos)
-  >>> COLAR O LINK AQUI <<<
+Video
+  O enunciado da Fase 5 nao pede video de demonstracao nem de pitch. Se a
+  plataforma de entrega exigir, o link entra nesta linha:
+  >>> COLAR O LINK AQUI, SE A PLATAFORMA PEDIR <<<
 
 
 --------------------------------------------------------------------------
@@ -91,7 +90,11 @@ Testes (rodam sem banco e sem rede):
 --------------------------------------------------------------------------
 
   Arquitetura documentada ....... docs/ARQUITETURA.md
-  Fluxograma (4 recortes) ....... docs/FLUXOGRAMA.md
+  Fluxograma .................... docs/FLUXOGRAMA.md
+      Os quatro recortes do enunciado, cada um com seu diagrama:
+      fluxo geral · perfis e responsabilidades · ciclo de vida da
+      ocorrencia · perfis de usuario. Sao diagramas Mermaid versionados,
+      que o GitHub renderiza direto na pagina do arquivo.
   Contrato tecnico .............. docs/ESPEC-TECNICA.md
   Checklist das 18 capacidades .. docs/ENTREGA.md, secao 2
   Dividas declaradas ............ docs/ENTREGA.md, secao 4

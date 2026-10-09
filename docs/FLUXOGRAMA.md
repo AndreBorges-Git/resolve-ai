@@ -46,6 +46,18 @@ flowchart TD
     P -.-> N
 
     J --> Q[Indicadores do dashboard<br/>recalculados]
+
+    classDef solicitante fill:#EFF6FF,stroke:#2563EB,stroke-width:2px,color:#172554;
+    classDef gestor fill:#F0F9FF,stroke:#0369A1,stroke-width:2px,color:#0C4A6E;
+    classDef auditoria fill:#F8FAFC,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef fim fill:#F0FDF4,stroke:#16A34A,stroke-width:3px,color:#14532D;
+    classDef cancelado fill:#FEF2F2,stroke:#DC2626,stroke-width:3px,color:#991B1B;
+
+    class A,C,D,E,N,P solicitante;
+    class G,H,I,L,Q gestor;
+    class F,J auditoria;
+    class O fim;
+    class M cancelado;
 ```
 
 As setas pontilhadas são o que o solicitante pode fazer **a qualquer momento**,
@@ -87,6 +99,14 @@ flowchart LR
 
     SOL --> OC
     GES --> OC
+
+    classDef solicitante fill:#EFF6FF,stroke:#2563EB,stroke-width:2px,color:#172554;
+    classDef gestor fill:#F0F9FF,stroke:#0369A1,stroke-width:2px,color:#0C4A6E;
+    classDef ocorrencia fill:#F0FDF4,stroke:#16A34A,stroke-width:3px,color:#14532D;
+
+    class S1,S2,S3,S4,S5,S6,S7,S8,S9,S10 solicitante;
+    class G1,G2,G3,G4,G5,G6,G7,G8 gestor;
+    class OC ocorrencia;
 ```
 
 **Adicionar comentários** é a única capacidade que os dois perfis têm — e é a
@@ -128,6 +148,14 @@ stateDiagram-v2
         Só 'resolvida' aceita avaliação,
         e só do solicitante dono.
     end note
+
+    classDef emCurso fill:#EFF6FF,stroke:#2563EB,stroke-width:2px,color:#172554;
+    classDef sucesso fill:#F0FDF4,stroke:#16A34A,stroke-width:3px,color:#14532D;
+    classDef cancelado fill:#FEF2F2,stroke:#DC2626,stroke-width:3px,color:#991B1B;
+
+    class aberta,em_analise,em_atendimento emCurso;
+    class resolvida sucesso;
+    class cancelada cancelado;
 ```
 
 Os cinco estados são os do enunciado. As setas são exatamente o objeto
@@ -172,6 +200,14 @@ flowchart TD
     SA -- Não --> D{É dono<br/>da ocorrência?}
     D -- Não --> E404[404<br/>NaoEncontradoError]
     D -- Sim --> OK3[Autorizado<br/>só nas próprias]
+
+    classDef decisao fill:#F8FAFC,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef autorizado fill:#F0FDF4,stroke:#16A34A,stroke-width:3px,color:#14532D;
+    classDef negado fill:#FEF2F2,stroke:#DC2626,stroke-width:3px,color:#991B1B;
+
+    class R,A,P,GA,SA,D decisao;
+    class OK1,OK2,OK3 autorizado;
+    class E401,E403,E404 negado;
 ```
 
 | Rota | Quem passa |
