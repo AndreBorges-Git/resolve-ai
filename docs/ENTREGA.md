@@ -13,9 +13,8 @@ roteiro do pitch e as dívidas declaradas.
 | Repositório | https://github.com/AndreBorges-Git/resolve-ai |
 | Aplicação (front) | https://resolve-ai-web.azurewebsites.net |
 | API | https://resolve-ai-api.azurewebsites.net/api |
-| Vídeo do MVP | _a publicar_ |
-| Vídeo do pitch | _a publicar_ |
-| Pasta pública no Drive | _a publicar_ |
+| Vídeo de demonstração (4 min, narrado e legendado) | https://drive.google.com/file/d/1p2Wic80MWgy3eGGxPotesisY2Rg7uS3q/view |
+| Pasta pública no Drive | https://drive.google.com/drive/folders/1wZGcm3xkuleJsK66eRL_GW_GS_oucfwA |
 
 O arquivo enviado na plataforma é [`SUBMISSAO.txt`](../SUBMISSAO.txt), na raiz do
 repositório: a mesma lista de links em texto puro, com as credenciais de
