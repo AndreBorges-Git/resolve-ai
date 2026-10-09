@@ -22,7 +22,8 @@ Pasta publica no Google Drive
   https://drive.google.com/drive/folders/1wZGcm3xkuleJsK66eRL_GW_GS_oucfwA
 
 Video de demonstracao (4 min, narrado e legendado)
-  Resolve-Ai-Demo.mp4, na pasta do Google Drive acima
+  https://drive.google.com/file/d/1p2Wic80MWgy3eGGxPotesisY2Rg7uS3q/view
+  (arquivo "Tech Challenge Fase 5 - André Borges.mp4" na pasta do Drive)
   Mostra a jornada completa na plataforma: a solicitante registra a
   ocorrencia com foto, o gestor a leva de aberta ate resolvida, a trilha
   de auditoria cresce a cada mudanca e a solicitante avalia o atendimento.
